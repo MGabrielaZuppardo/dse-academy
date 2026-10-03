@@ -1,0 +1,63 @@
+@import "tailwindcss";
+
+/* Paleta da DSE Academy (a mesma do portal atual em app/web/styles.css), em dois temas.
+   O tema vem de <html data-theme="light|dark">, definido antes da primeira pintura pelo script do layout.
+   Cores de texto e fundo são "semânticas" (titulo, suave, superficie...) para trocar de tema sem mexer nos componentes. */
+:root,
+[data-theme="light"] {
+  color-scheme: light;
+  --fundo: #f2f5fa;
+  --superficie: #ffffff;
+  --tinta: #0e1a33;
+  --tinta-suave: #4a5874;
+  --titulo: #07142f;
+  --borda: #d9e1ee;
+  --link: #3548c4;
+  --erro: #b3261e;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+  --fundo: #0b1220;
+  --superficie: #121c33;
+  --tinta: #e6ecf7;
+  --tinta-suave: #a9b6cf;
+  --titulo: #f1f5fd;
+  --borda: #2a3856;
+  --link: #8ec0f5;
+  --erro: #ff8a80;
+}
+
+/* Iguais nos dois temas: o cabeçalho é sempre azul-marinho e o botão primário sempre azul. */
+:root {
+  --marinho: #07142f;
+  --azul: #3548c4;
+  --azul-claro: #8ec0f5;
+}
+
+@theme inline {
+  --color-fundo: var(--fundo);
+  --color-superficie: var(--superficie);
+  --color-tinta: var(--tinta);
+  --color-suave: var(--tinta-suave);
+  --color-titulo: var(--titulo);
+  --color-borda: var(--borda);
+  --color-link: var(--link);
+  --color-marinho: var(--marinho);
+  --color-azul: var(--azul);
+  --color-azul-claro: var(--azul-claro);
+  --color-erro: var(--erro);
+  --font-sans: var(--font-plex), system-ui, sans-serif;
+  --font-display: var(--font-saira), system-ui, sans-serif;
+}
+
+body {
+  background: var(--fundo);
+  color: var(--tinta);
+  font-family: var(--font-sans);
+}
+
+:focus-visible {
+  outline: 3px solid var(--link);
+  outline-offset: 2px;
+}

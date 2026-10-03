@@ -101,8 +101,8 @@ carregado em segundo plano depois que a página aparece: a abertura baixa só `d
 **Requisitos:** Python 3.13 e Git.
 
 ```bash
-git clone git@github.com:MGabrielaZuppardo/dse-portal-vagas-academy.git
-cd dse-portal-vagas-academy
+git clone git@github.com:MGabrielaZuppardo/dse-academy.git
+cd dse-academy
 
 python -m venv .venv
 .venv\Scripts\activate          # Windows
@@ -346,6 +346,44 @@ pessoais de recrutadores ou candidatos. Cada vaga leva para o anúncio original.
 
 ---
 
+## Monorepo em migração (Next.js + FastAPI)
+
+O portal está sendo reconstruído em um monorepo, **sem tirar o site atual do ar**: `app/` (HTML/JS) continua sendo
+publicado pelo workflow semanal até o front novo ter as mesmas funcionalidades.
+
+```
+apps/web/     Next.js (TypeScript, Tailwind): front novo, páginas indexáveis, formulários
+apps/api/     FastAPI: tarefas de servidor (LLM com Groq, validação). Valida o JWT do Supabase
+supabase/     migrations SQL (auth, perfis, RLS, admins, palestrantes)
+ingestion/ enrichment/ storage/ app/   pipeline de coleta e site atual (migram para pipeline/ depois)
+```
+
+Decisões: Supabase continua sendo auth e banco (a RLS é a única fonte de autorização; a API repassa o token da
+pessoa em vez de usar chave de serviço). O perfil de admin é a tabela `admins`, preenchida só pelo SQL Editor.
+Detalhes em [apps/web/README.md](apps/web/README.md) e [apps/api/README.md](apps/api/README.md).
+
+### Trilhas de estudo
+
+Uma trilha por área (8 hoje; áreas com menos de 15 vagas ficam de fora), gerada em lote por `python -m trilhas.gerar`:
+
+1. **Os números vêm das vagas**: `trilhas/demanda.py` conta quanto cada tecnologia é pedida na área. Nada disso passa por LLM.
+2. **Divisão do básico ao avançado**: `trilhas/niveis.yaml` diz em que nível cada tecnologia entra. O nível de cada etapa é calculado a
+   partir das tecnologias dentro dela (nunca do que o LLM disser), e a trilha é sempre exibida em três blocos: básico, intermediário e
+   avançado. Se uma área não tiver nenhuma tecnologia avançada entre as mais pedidas, as intermediárias menos pedidas (as mais
+   especializadas) sobem para avançado, para a trilha sempre ter os três níveis.
+3. **O LLM só organiza** as etapas, via Groq (modelos abertos, `GROQ_API_KEY`) ou Ollama local. Ele recebe só nomes, ids, percentuais e
+   níveis da taxonomia, nunca texto de vagas. A resposta é validada: ids inventados ou repetidos caem, o que ele esquecer vai para uma
+   etapa de aprofundamento e, se vier inutilizável ou a cota acabar, a trilha sai de um plano por regras.
+4. **Cinco ideias de mini-projeto por etapa**: as do LLM (se houver) completadas com as de `trilhas/projetos.yaml`, uma de cada
+   tecnologia da etapa por rodada, sem repetir título na mesma trilha.
+5. **Conteúdo gratuito e aberto** em `trilhas/recursos.yaml`: conteúdo geral e por área ("Comece por aqui", no topo da trilha) e por
+   tecnologia. O LLM não escolhe links. Todos responderam HTTP 200 ao entrar; a licença só aparece quando a API do GitHub a confirma.
+   Revalide com `python -m trilhas.verificar_links`.
+6. **A personalização é no navegador**: o que a pessoa já sabe vem das habilidades do perfil; o progresso fica na tabela
+   `inscricoes_trilha` (migration 006), com RLS por usuário.
+
+Para ampliar o conteúdo basta editar os três YAML (há testes que validam ids, links https, níveis e tamanhos).
+
 ## Roadmap
 
 - [ ] Revisar os termos de uso da Gupy (ver acima)
@@ -354,6 +392,7 @@ pessoais de recrutadores ou candidatos. Cada vaga leva para o anúncio original.
 - [ ] SMTP próprio para os e-mails de login
 - [ ] Avaliação manual de uma amostra (acurácia de senioridade, precisão e revocação das skills)
 - [ ] Conectores Greenhouse e Lever
+- [ ] Monorepo: formulário de palestrantes (feito), formulário de artigos com e-mail, painel de admin, trilhas de estudo (gerador, páginas e acompanhamento feitos; falta rodar com a chave do Groq), migrar as telas de vagas para o Next.js
 - [ ] Agente conversacional sobre os dados das vagas (adiado)
 
 **Licença:** ainda não definida.

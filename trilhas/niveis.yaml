@@ -1,0 +1,79 @@
+# Em que nível da trilha cada tecnologia entra (id da taxonomia -> basico | intermediario | avancado).
+#
+# É isto que divide a trilha de "básico" a "avançado": cada etapa herda o nível das tecnologias que contém,
+# e as etapas são sempre mostradas do básico para o avançado. Vale tanto para o LLM (que recebe o nível
+# como dica) quanto para o plano por regras.
+#
+# Critério: básico = o que a pessoa precisa para começar a trabalhar com dados (linguagens, SQL, planilhas,
+# BI, versionamento, bancos mais comuns, conceitos de ETL e modelagem); intermediário = ferramentas e práticas
+# do dia a dia de times de dados (nuvem, orquestração, processamento, ML clássico, qualidade);
+# avançado = escala, arquitetura e especialização (streaming, infraestrutura, deep learning, LLMs, MLOps).
+# Tecnologia que não estiver aqui entra como intermediário.
+
+basico:
+  - python
+  - sql
+  - excel
+  - git
+  - linux
+  - shell
+  - estatistica
+  - pandas
+  - power_bi
+  - power_query
+  - tableau
+  - looker
+  - r
+  - postgresql
+  - mysql
+  - sql_server
+  - oracle
+  - modelagem_dados
+  - etl
+  - apis
+  - lgpd
+  - governanca_dados
+
+intermediario:
+  - machine_learning
+  - scikit_learn
+  - dax
+  - docker
+  - ci_cd
+  - airflow
+  - dbt
+  - spark
+  - bigquery
+  - databricks
+  - data_lake
+  - data_warehouse
+  - aws
+  - azure
+  - gcp
+  - aws_s3
+  - aws_glue
+  - azure_data_factory
+  - mongodb
+  - nosql
+  - cassandra
+  - data_quality
+  - testes_ab
+  - xgboost
+  - lightgbm
+  - nlp
+  - tensorflow
+  - hadoop
+  - sap
+  - delta_lake
+  - mlflow
+
+avancado:
+  - kubernetes
+  - terraform
+  - kafka
+  - deep_learning
+  - pytorch
+  - mlops
+  - llm
+  - rag
+  - unity_catalog
