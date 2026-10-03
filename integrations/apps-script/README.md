@@ -97,13 +97,13 @@ Além do e-mail, cada **artigo** novo vira um evento de **dia inteiro** no Googl
 - Se o Agenda falhar, o e-mail já saiu e o cadastro continua valendo (a falha fica no log).
 
 **Lembrete semanal:** toda **segunda-feira, perto das 8h**, o script cria no Agenda da DSE o evento
-**"Revisar os posts da semana no Medium"**, às 9h, e **convida gabrielamzuppardo@gmail.com** (chega convite por e-mail e
+**"Revisar os posts da semana no Medium"**, às **19h (7 da noite)**, e **convida gabrielamzuppardo@gmail.com** (chega convite por e-mail e
 notificação no Agenda dela, com alerta 10 minutos antes). A descrição lista os artigos marcados para aquela semana.
 Para convidar outra pessoa, crie a propriedade `LEMBRETE_PARA` (e-mails separados por vírgula).
 
 ### Ligar (uma vez)
 1. Cole o código novo de [`notificar-submissoes.gs`](notificar-submissoes.gs) no editor do Apps Script e salve.
-2. **Fuso horário:** *Configurações do projeto > Fuso horário* = `(GMT-03:00) Brasília`. Sem isso o "9h" e o dia do evento saem no fuso errado.
+2. **Fuso horário:** *Configurações do projeto > Fuso horário* = `(GMT-03:00) Brasília`. Sem isso o "19h" e o dia do evento saem no fuso errado.
 3. No editor, escolha a função **`instalarGatilhos`** e clique em **Executar**. O Google pede autorização nova (agora inclui o **Agenda**):
    *Revisar permissões > escolher a conta > Avançado > Acessar (não seguro) > Permitir*. Isso cria o gatilho de segunda-feira.
 4. Escolha **`testarLembrete`** e execute: cria o lembrete desta semana, e o convite deve chegar em gabrielamzuppardo@gmail.com.
