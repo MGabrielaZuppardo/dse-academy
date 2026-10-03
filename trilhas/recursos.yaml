@@ -1,0 +1,1231 @@
+# Conteúdo de estudo gratuito e aberto das trilhas.
+#
+# Três blocos:
+#   gerais   conteúdo para começar, mostrado no topo de todas as trilhas
+#   areas    conteúdo por área (id da área -> links), mostrado no topo da trilha da área
+#   skills   conteúdo por tecnologia (id da taxonomia -> links), mostrado em cada tecnologia da trilha
+#
+# Regras:
+# - Só documentação oficial e conteúdo gratuito, e SÓ links que responderam HTTP 200 na hora de incluir.
+# - O LLM nunca escolhe nem inventa links: ele só organiza as etapas; os links vêm daqui.
+# - nivel é o do CONTEÚDO (basico | intermediario | avancado): a trilha mostra primeiro o básico.
+# - licenca só existe quando a API do GitHub informa a licença do repositório (SPDX). Sem ela, o item é
+#   gratuito/aberto ao acesso, mas não afirmamos "código aberto".
+# - idioma: pt | en     tipo: documentação | curso | livro | guia | repositório | vídeo | jogo | ferramenta | dados | artigo | comunidade
+# Revalide de tempos em tempos:  python -m trilhas.verificar_links
+# Tecnologia sem entrada aqui aparece na trilha sem link.
+
+gerais:
+- titulo: Free Programming Books (lista aberta, com seção em português)
+  url: https://github.com/EbookFoundation/free-programming-books
+  idioma: pt
+  tipo: repositório
+  nivel: basico
+  licenca: CC-BY-4.0
+- titulo: 'OSSU: currículo aberto de Ciência de Dados'
+  url: https://github.com/ossu/data-science
+  idioma: en
+  tipo: repositório
+  nivel: basico
+- titulo: 'OSSU: currículo aberto de Ciência da Computação'
+  url: https://github.com/ossu/computer-science
+  idioma: en
+  tipo: repositório
+  nivel: basico
+  licenca: MIT
+- titulo: 'Software Carpentry: lições abertas de programação e dados'
+  url: https://software-carpentry.org/lessons/
+  idioma: en
+  tipo: curso
+  nivel: basico
+- titulo: 'freeCodeCamp: Análise de Dados com Python'
+  url: https://www.freecodecamp.org/learn/data-analysis-with-python/
+  idioma: en
+  tipo: curso
+  nivel: basico
+- titulo: 'Kaggle Learn: microcursos gratuitos'
+  url: https://www.kaggle.com/learn
+  idioma: en
+  tipo: curso
+  nivel: basico
+- titulo: 'CS50x: introdução à ciência da computação (Harvard)'
+  url: https://cs50.harvard.edu/x/
+  idioma: en
+  tipo: curso
+  nivel: basico
+- titulo: 'The Missing Semester (MIT): terminal, Git, editores e ferramentas'
+  url: https://missing.csail.mit.edu/
+  idioma: en
+  tipo: curso
+  nivel: basico
+- titulo: 'Curso em Vídeo: Python 3, mundo 1'
+  url: https://www.cursoemvideo.com/curso/python-3-mundo-1/
+  idioma: pt
+  tipo: curso
+  nivel: basico
+- titulo: 'Escola de Dados: cursos e guias abertos'
+  url: https://escoladedados.org/
+  idioma: pt
+  tipo: curso
+  nivel: basico
+- titulo: 'Base dos Dados: dados brasileiros abertos e tratados'
+  url: https://basedosdados.org/
+  idioma: pt
+  tipo: dados
+  nivel: basico
+- titulo: Portal Brasileiro de Dados Abertos
+  url: https://dados.gov.br/
+  idioma: pt
+  tipo: dados
+  nivel: basico
+- titulo: 'Awesome Public Datasets: bases abertas para projetos'
+  url: https://github.com/awesomedata/awesome-public-datasets
+  idioma: en
+  tipo: repositório
+  nivel: basico
+  licenca: MIT
+- titulo: 'Hugging Face Learn: cursos gratuitos de IA'
+  url: https://huggingface.co/learn
+  idioma: en
+  tipo: curso
+  nivel: basico
+- titulo: 'DataTalks.Club: comunidade e cursos abertos de dados'
+  url: https://datatalks.club/
+  idioma: en
+  tipo: comunidade
+  nivel: basico
+- titulo: Documentação do Jupyter
+  url: https://docs.jupyter.org/
+  idioma: en
+  tipo: documentação
+  nivel: basico
+- titulo: Awesome Data Science (lista aberta)
+  url: https://github.com/academic/awesome-datascience
+  idioma: en
+  tipo: repositório
+  nivel: intermediario
+  licenca: MIT
+areas:
+  analise_dados:
+  - titulo: 'From Data to Viz: escolha o gráfico certo'
+    url: https://www.data-to-viz.com/
+    idioma: en
+    tipo: guia
+    nivel: basico
+  - titulo: 'Kaggle Learn: visualização de dados'
+    url: https://www.kaggle.com/learn/data-visualization
+    idioma: en
+    tipo: curso
+    nivel: basico
+  bi:
+  - titulo: 'Metabase: BI de código aberto'
+    url: https://www.metabase.com/docs/latest/
+    idioma: en
+    tipo: documentação
+    nivel: basico
+  - titulo: 'Apache Superset: BI de código aberto'
+    url: https://superset.apache.org/docs/intro
+    idioma: en
+    tipo: documentação
+    nivel: intermediario
+  ciencia_dados:
+  - titulo: 'mlcourse.ai: curso aberto de machine learning'
+    url: https://mlcourse.ai/
+    idioma: en
+    tipo: curso
+    nivel: intermediario
+  - titulo: Python Data Science Handbook (livro online)
+    url: https://jakevdp.github.io/PythonDataScienceHandbook/
+    idioma: en
+    tipo: livro
+    nivel: intermediario
+  dba:
+  - titulo: 'Use The Index, Luke: índices e desempenho de SQL'
+    url: https://use-the-index-luke.com/
+    idioma: en
+    tipo: livro
+    nivel: intermediario
+  engenharia_dados:
+  - titulo: Data Engineering Zoomcamp (curso aberto completo)
+    url: https://github.com/DataTalksClub/data-engineering-zoomcamp
+    idioma: en
+    tipo: repositório
+    nivel: basico
+  - titulo: Data Engineer Handbook (guia aberto)
+    url: https://github.com/DataExpert-io/data-engineer-handbook
+    idioma: en
+    tipo: repositório
+    nivel: intermediario
+  - titulo: Awesome Data Engineering (lista aberta)
+    url: https://github.com/igorbarinov/awesome-data-engineering
+    idioma: en
+    tipo: repositório
+    nivel: intermediario
+    licenca: CC0-1.0
+  gestao_dados:
+  - titulo: 'Data Mesh Learning: comunidade e conteúdo abertos'
+    url: https://datameshlearning.com/
+    idioma: en
+    tipo: comunidade
+    nivel: intermediario
+  governanca_dados:
+  - titulo: Open Data Handbook
+    url: https://opendatahandbook.org/
+    idioma: en
+    tipo: livro
+    nivel: basico
+  - titulo: 'OpenMetadata: catálogo de dados aberto'
+    url: https://docs.open-metadata.org/
+    idioma: en
+    tipo: documentação
+    nivel: intermediario
+  ml_engineering:
+  - titulo: 'Made With ML: de ML a produção'
+    url: https://madewithml.com/
+    idioma: en
+    tipo: curso
+    nivel: intermediario
+  - titulo: Rules of Machine Learning (Google)
+    url: https://developers.google.com/machine-learning/guides/rules-of-ml
+    idioma: en
+    tipo: guia
+    nivel: intermediario
+  - titulo: Full Stack Deep Learning
+    url: https://fullstackdeeplearning.com/
+    idioma: en
+    tipo: curso
+    nivel: avancado
+skills:
+  airflow:
+  - titulo: Documentação do Apache Airflow
+    url: https://airflow.apache.org/docs/
+    idioma: en
+    tipo: documentação
+    nivel: basico
+  - titulo: 'Airflow: tutorial de fundamentos'
+    url: https://airflow.apache.org/docs/apache-airflow/stable/tutorial/fundamentals.html
+    idioma: en
+    tipo: documentação
+    nivel: basico
+  - titulo: 'Astronomer Learn: guias de Airflow'
+    url: https://www.astronomer.io/docs/learn/
+    idioma: en
+    tipo: guia
+    nivel: intermediario
+  apis:
+  - titulo: 'HTTP: guia da MDN'
+    url: https://developer.mozilla.org/pt-BR/docs/Web/HTTP
+    idioma: pt
+    tipo: documentação
+    nivel: basico
+  - titulo: REST API Tutorial
+    url: https://restfulapi.net/
+    idioma: en
+    tipo: guia
+    nivel: basico
+  - titulo: 'Requests: primeiros passos (biblioteca de código aberto)'
+    url: https://requests.readthedocs.io/en/latest/user/quickstart/
+    idioma: en
+    tipo: documentação
+    nivel: basico
+  - titulo: 'JSONPlaceholder: API falsa para praticar'
+    url: https://jsonplaceholder.typicode.com/
+    idioma: en
+    tipo: ferramenta
+    nivel: basico
+  - titulo: 'FastAPI: tutorial (código aberto)'
+    url: https://fastapi.tiangolo.com/tutorial/
+    idioma: en
+    tipo: curso
+    nivel: intermediario
+  aws:
+  - titulo: Documentação da AWS
+    url: https://docs.aws.amazon.com/pt_br/
+    idioma: pt
+    tipo: documentação
+    nivel: basico
+  - titulo: AWS Cloud Practitioner Essentials (curso gratuito)
+    url: https://aws.amazon.com/training/digital/aws-cloud-practitioner-essentials/
+    idioma: en
+    tipo: curso
+    nivel: basico
+  - titulo: 'AWS Skill Builder: cursos gratuitos'
+    url: https://skillbuilder.aws/
+    idioma: pt
+    tipo: curso
+    nivel: basico
+  aws_glue:
+  - titulo: Documentação do AWS Glue
+    url: https://docs.aws.amazon.com/glue/
+    idioma: en
+    tipo: documentação
+    nivel: intermediario
+  aws_s3:
+  - titulo: Documentação do Amazon S3
+    url: https://docs.aws.amazon.com/s3/
+    idioma: en
+    tipo: documentação
+    nivel: basico
+  azure:
+  - titulo: Documentação do Azure
+    url: https://learn.microsoft.com/pt-br/azure/
+    idioma: pt
+    tipo: documentação
+    nivel: basico
+  - titulo: 'Microsoft Learn: Azure Fundamentals'
+    url: https://learn.microsoft.com/pt-br/training/paths/azure-fundamentals/
+    idioma: pt
+    tipo: curso
+    nivel: basico
+  azure_data_factory:
+  - titulo: Documentação do Azure Data Factory
+    url: https://learn.microsoft.com/pt-br/azure/data-factory/
+    idioma: pt
+    tipo: documentação
+    nivel: basico
+  bigquery:
+  - titulo: Documentação do BigQuery
+    url: https://cloud.google.com/bigquery/docs?hl=pt-br
+    idioma: pt
+    tipo: documentação
+    nivel: basico
+  - titulo: 'BigQuery sandbox: use sem cartão de crédito'
+    url: https://cloud.google.com/bigquery/docs/sandbox
+    idioma: en
+    tipo: documentação
+    nivel: basico
+  cassandra:
+  - titulo: Documentação do Apache Cassandra
+    url: https://cassandra.apache.org/doc/latest/
+    idioma: en
+    tipo: documentação
+    nivel: intermediario
+  ci_cd:
+  - titulo: GitHub Actions
+    url: https://docs.github.com/pt/actions
+    idioma: pt
+    tipo: documentação
+    nivel: basico
+  - titulo: GitLab CI/CD
+    url: https://docs.gitlab.com/ci/
+    idioma: en
+    tipo: documentação
+    nivel: basico
+  data_lake:
+  - titulo: Documentação do Delta Lake (código aberto)
+    url: https://docs.delta.io/latest/index.html
+    idioma: en
+    tipo: documentação
+    nivel: intermediario
+  - titulo: Documentação do Apache Iceberg (código aberto)
+    url: https://iceberg.apache.org/docs/latest/
+    idioma: en
+    tipo: documentação
+    nivel: intermediario
+  - titulo: 'Lakehouse: artigo original (CIDR 2021)'
+    url: https://www.cidrdb.org/cidr2021/papers/cidr2021_paper17.pdf
+    idioma: en
+    tipo: artigo
+    nivel: avancado
+  data_quality:
+  - titulo: 'Great Expectations: qualidade de dados (código aberto)'
+    url: https://docs.greatexpectations.io/
+    idioma: en
+    tipo: documentação
+    nivel: basico
+  - titulo: 'dbt: testes de dados'
+    url: https://docs.getdbt.com/docs/build/data-tests
+    idioma: en
+    tipo: documentação
+    nivel: basico
+  - titulo: 'Soda Core: qualidade de dados (código aberto)'
+    url: https://docs.soda.io/
+    idioma: en
+    tipo: documentação
+    nivel: intermediario
+  data_warehouse:
+  - titulo: 'DuckDB: banco analítico de código aberto'
+    url: https://duckdb.org/docs/
+    idioma: en
+    tipo: documentação
+    nivel: basico
+  - titulo: Técnicas de modelagem dimensional (Kimball)
+    url: https://www.kimballgroup.com/data-warehouse-business-intelligence-resources/kimball-techniques/dimensional-modeling-techniques/
+    idioma: en
+    tipo: guia
+    nivel: basico
+  databricks:
+  - titulo: Documentação do Databricks
+    url: https://docs.databricks.com/
+    idioma: en
+    tipo: documentação
+    nivel: basico
+  - titulo: 'Databricks Academy: cursos gratuitos'
+    url: https://www.databricks.com/learn/training/home
+    idioma: en
+    tipo: curso
+    nivel: basico
+  dax:
+  - titulo: Referência de DAX
+    url: https://learn.microsoft.com/pt-br/dax/
+    idioma: pt
+    tipo: documentação
+    nivel: basico
+  - titulo: 'DAX Guide: referência completa e aberta'
+    url: https://dax.guide/
+    idioma: en
+    tipo: documentação
+    nivel: basico
+  - titulo: 'DAX Patterns: receitas prontas'
+    url: https://www.daxpatterns.com/
+    idioma: en
+    tipo: guia
+    nivel: avancado
+  dbt:
+  - titulo: Documentação do dbt
+    url: https://docs.getdbt.com/docs/introduction
+    idioma: en
+    tipo: documentação
+    nivel: basico
+  - titulo: 'dbt Learn: cursos gratuitos'
+    url: https://learn.getdbt.com/
+    idioma: en
+    tipo: curso
+    nivel: basico
+  - titulo: 'Jaffle Shop: projeto de exemplo do dbt'
+    url: https://github.com/dbt-labs/jaffle-shop
+    idioma: en
+    tipo: repositório
+    nivel: basico
+  deep_learning:
+  - titulo: Practical Deep Learning (fast.ai)
+    url: https://course.fast.ai/
+    idioma: en
+    tipo: curso
+    nivel: basico
+  - titulo: Dive into Deep Learning (livro aberto)
+    url: https://d2l.ai/
+    idioma: en
+    tipo: livro
+    nivel: intermediario
+  - titulo: 'Neural Networks: Zero to Hero (Karpathy)'
+    url: https://karpathy.ai/zero-to-hero.html
+    idioma: en
+    tipo: vídeo
+    nivel: intermediario
+  - titulo: Deep Learning (Goodfellow et al., livro online)
+    url: https://www.deeplearningbook.org/
+    idioma: en
+    tipo: livro
+    nivel: avancado
+  delta_lake:
+  - titulo: Documentação do Delta Lake (código aberto)
+    url: https://docs.delta.io/latest/index.html
+    idioma: en
+    tipo: documentação
+    nivel: intermediario
+  - titulo: 'Delta Lake: repositório oficial'
+    url: https://github.com/delta-io/delta
+    idioma: en
+    tipo: repositório
+    nivel: intermediario
+    licenca: Apache-2.0
+  docker:
+  - titulo: Introdução ao Docker
+    url: https://docs.docker.com/get-started/
+    idioma: en
+    tipo: documentação
+    nivel: basico
+  - titulo: 'Play with Docker: pratique no navegador'
+    url: https://labs.play-with-docker.com/
+    idioma: en
+    tipo: ferramenta
+    nivel: basico
+  - titulo: 'Docker Curriculum: tutorial passo a passo'
+    url: https://docker-curriculum.com/
+    idioma: en
+    tipo: curso
+    nivel: basico
+  estatistica:
+  - titulo: OpenIntro Statistics (livro aberto)
+    url: https://www.openintro.org/book/os/
+    idioma: en
+    tipo: livro
+    nivel: basico
+  - titulo: 'Seeing Theory: estatística visual'
+    url: https://seeing-theory.brown.edu/
+    idioma: en
+    tipo: curso
+    nivel: basico
+  - titulo: 'Khan Academy: estatística e probabilidade'
+    url: https://www.khanacademy.org/math/statistics-probability
+    idioma: pt
+    tipo: curso
+    nivel: basico
+  - titulo: 'StatQuest: estatística e ML explicados'
+    url: https://statquest.org/
+    idioma: en
+    tipo: vídeo
+    nivel: basico
+  - titulo: Think Stats (livro aberto)
+    url: https://greenteapress.com/wp/think-stats-2e/
+    idioma: en
+    tipo: livro
+    nivel: intermediario
+  - titulo: Think Bayes (livro aberto)
+    url: https://allendowney.github.io/ThinkBayes2/
+    idioma: en
+    tipo: livro
+    nivel: avancado
+  etl:
+  - titulo: Data Engineering Zoomcamp (curso aberto completo)
+    url: https://github.com/DataTalksClub/data-engineering-zoomcamp
+    idioma: en
+    tipo: repositório
+    nivel: basico
+  - titulo: 'dlt: carga de dados em Python (código aberto)'
+    url: https://dlthub.com/docs/intro
+    idioma: en
+    tipo: documentação
+    nivel: basico
+  - titulo: O que é ETL? (AWS)
+    url: https://aws.amazon.com/pt/what-is/etl/
+    idioma: pt
+    tipo: guia
+    nivel: basico
+  - titulo: O que é ETL? (Google Cloud)
+    url: https://cloud.google.com/learn/what-is-etl?hl=pt-br
+    idioma: pt
+    tipo: guia
+    nivel: basico
+  - titulo: Documentação do Airbyte (código aberto)
+    url: https://docs.airbyte.com/
+    idioma: en
+    tipo: documentação
+    nivel: intermediario
+  - titulo: Documentação do Meltano (código aberto)
+    url: https://docs.meltano.com/
+    idioma: en
+    tipo: documentação
+    nivel: intermediario
+  excel:
+  - titulo: Ajuda e aprendizado do Excel
+    url: https://support.microsoft.com/pt-br/excel
+    idioma: pt
+    tipo: documentação
+    nivel: basico
+  - titulo: 'Excel Easy: tutorial passo a passo'
+    url: https://www.excel-easy.com/
+    idioma: en
+    tipo: curso
+    nivel: basico
+  - titulo: 'Chandoo: tutoriais de Excel'
+    url: https://chandoo.org/wp/
+    idioma: en
+    tipo: guia
+    nivel: basico
+  - titulo: Documentação do LibreOffice Calc (alternativa aberta)
+    url: https://documentation.libreoffice.org/pt-br/portugues/
+    idioma: pt
+    tipo: documentação
+    nivel: basico
+  - titulo: 'ExcelIsFun: vídeos de Excel'
+    url: https://www.youtube.com/@excelisfun
+    idioma: en
+    tipo: vídeo
+    nivel: basico
+  - titulo: 'Exceljet: fórmulas e atalhos'
+    url: https://exceljet.net/
+    idioma: en
+    tipo: guia
+    nivel: intermediario
+  gcp:
+  - titulo: Documentação do Google Cloud
+    url: https://cloud.google.com/docs?hl=pt-br
+    idioma: pt
+    tipo: documentação
+    nivel: basico
+  - titulo: Google Cloud Skills Boost
+    url: https://www.cloudskillsboost.google/
+    idioma: pt
+    tipo: curso
+    nivel: basico
+  git:
+  - titulo: Pro Git (livro oficial, em português)
+    url: https://git-scm.com/book/pt-br/v2
+    idioma: pt
+    tipo: livro
+    nivel: basico
+  - titulo: 'Learn Git Branching: aprenda Git jogando'
+    url: https://learngitbranching.js.org/
+    idioma: en
+    tipo: jogo
+    nivel: basico
+  - titulo: 'GitHub Skills: cursos interativos'
+    url: https://skills.github.com/
+    idioma: en
+    tipo: curso
+    nivel: basico
+  - titulo: Documentação do Git
+    url: https://git-scm.com/docs
+    idioma: en
+    tipo: documentação
+    nivel: basico
+  governanca_dados:
+  - titulo: Open Data Handbook
+    url: https://opendatahandbook.org/
+    idioma: en
+    tipo: livro
+    nivel: basico
+  - titulo: 'Data Governance Institute: framework aberto'
+    url: https://datagovernance.com/
+    idioma: en
+    tipo: guia
+    nivel: basico
+  - titulo: 'OpenMetadata: catálogo de dados aberto'
+    url: https://docs.open-metadata.org/
+    idioma: en
+    tipo: documentação
+    nivel: intermediario
+  hadoop:
+  - titulo: Documentação do Apache Hadoop
+    url: https://hadoop.apache.org/docs/stable/
+    idioma: en
+    tipo: documentação
+    nivel: intermediario
+  kafka:
+  - titulo: Documentação do Apache Kafka
+    url: https://kafka.apache.org/documentation/
+    idioma: en
+    tipo: documentação
+    nivel: basico
+  - titulo: 'Kafka: quickstart'
+    url: https://kafka.apache.org/quickstart
+    idioma: en
+    tipo: documentação
+    nivel: basico
+  - titulo: 'Confluent Developer: cursos gratuitos'
+    url: https://developer.confluent.io/
+    idioma: en
+    tipo: curso
+    nivel: intermediario
+  kubernetes:
+  - titulo: 'Kubernetes: básico interativo'
+    url: https://kubernetes.io/docs/tutorials/kubernetes-basics/
+    idioma: en
+    tipo: curso
+    nivel: basico
+  - titulo: Tutoriais do Kubernetes
+    url: https://kubernetes.io/pt-br/docs/tutorials/
+    idioma: pt
+    tipo: documentação
+    nivel: basico
+  - titulo: Kubernetes The Hard Way
+    url: https://github.com/kelseyhightower/kubernetes-the-hard-way
+    idioma: en
+    tipo: repositório
+    nivel: avancado
+    licenca: Apache-2.0
+  lgpd:
+  - titulo: Autoridade Nacional de Proteção de Dados (ANPD)
+    url: https://www.gov.br/anpd/pt-br
+    idioma: pt
+    tipo: documentação
+    nivel: basico
+  - titulo: Texto oficial da LGPD (Lei 13.709/2018)
+    url: https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709.htm
+    idioma: pt
+    tipo: documentação
+    nivel: basico
+  lightgbm:
+  - titulo: Documentação do LightGBM
+    url: https://lightgbm.readthedocs.io/
+    idioma: en
+    tipo: documentação
+    nivel: intermediario
+  linux:
+  - titulo: The Linux Command Line (livro gratuito)
+    url: https://linuxcommand.org/tlcl.php
+    idioma: en
+    tipo: livro
+    nivel: basico
+  - titulo: 'OverTheWire Bandit: aprenda Linux jogando'
+    url: https://overthewire.org/wargames/bandit/
+    idioma: en
+    tipo: jogo
+    nivel: basico
+  - titulo: Guia Foca Linux (em português)
+    url: https://www.guiafoca.org/
+    idioma: pt
+    tipo: guia
+    nivel: basico
+  - titulo: 'explainshell: entenda qualquer comando'
+    url: https://explainshell.com/
+    idioma: en
+    tipo: ferramenta
+    nivel: basico
+  llm:
+  - titulo: Curso de LLMs da Hugging Face
+    url: https://huggingface.co/learn/llm-course
+    idioma: en
+    tipo: curso
+    nivel: basico
+  - titulo: Guia de Prompt Engineering (aberto)
+    url: https://www.promptingguide.ai/
+    idioma: en
+    tipo: guia
+    nivel: basico
+  - titulo: 'LLM Course (mlabonne): roteiro aberto'
+    url: https://github.com/mlabonne/llm-course
+    idioma: en
+    tipo: repositório
+    nivel: intermediario
+    licenca: Apache-2.0
+  - titulo: LLM Zoomcamp (DataTalks.Club)
+    url: https://github.com/DataTalksClub/llm-zoomcamp
+    idioma: en
+    tipo: repositório
+    nivel: intermediario
+  looker:
+  - titulo: Documentação do Looker Studio
+    url: https://support.google.com/looker-studio
+    idioma: pt
+    tipo: documentação
+    nivel: basico
+  - titulo: Começar a usar o Looker Studio
+    url: https://support.google.com/looker-studio/answer/6283323
+    idioma: pt
+    tipo: documentação
+    nivel: basico
+  - titulo: Galeria de modelos do Looker Studio
+    url: https://lookerstudio.google.com/gallery
+    idioma: en
+    tipo: ferramenta
+    nivel: basico
+  machine_learning:
+  - titulo: Machine Learning Crash Course (Google)
+    url: https://developers.google.com/machine-learning/crash-course?hl=pt-br
+    idioma: pt
+    tipo: curso
+    nivel: basico
+  - titulo: 'Kaggle Learn: Intro to Machine Learning'
+    url: https://www.kaggle.com/learn/intro-to-machine-learning
+    idioma: en
+    tipo: curso
+    nivel: basico
+  - titulo: 'mlcourse.ai: curso aberto'
+    url: https://mlcourse.ai/
+    idioma: en
+    tipo: curso
+    nivel: intermediario
+  - titulo: 'Hands-On Machine Learning: notebooks do livro (3ª ed.)'
+    url: https://github.com/ageron/handson-ml3
+    idioma: en
+    tipo: repositório
+    nivel: intermediario
+    licenca: Apache-2.0
+  - titulo: An Introduction to Statistical Learning (livro gratuito)
+    url: https://www.statlearning.com/
+    idioma: en
+    tipo: livro
+    nivel: intermediario
+  - titulo: 'Stanford CS229: notas de aula abertas'
+    url: https://cs229.stanford.edu/
+    idioma: en
+    tipo: curso
+    nivel: avancado
+  mlflow:
+  - titulo: Documentação do MLflow
+    url: https://mlflow.org/docs/latest/
+    idioma: en
+    tipo: documentação
+    nivel: intermediario
+  mlops:
+  - titulo: 'MLOps: visão geral'
+    url: https://ml-ops.org/
+    idioma: en
+    tipo: guia
+    nivel: basico
+  - titulo: MLOps Zoomcamp (DataTalks.Club)
+    url: https://github.com/DataTalksClub/mlops-zoomcamp
+    idioma: en
+    tipo: repositório
+    nivel: intermediario
+  - titulo: 'Made With ML: de ML a produção'
+    url: https://madewithml.com/
+    idioma: en
+    tipo: curso
+    nivel: intermediario
+  modelagem_dados:
+  - titulo: Técnicas de modelagem dimensional (Kimball)
+    url: https://www.kimballgroup.com/data-warehouse-business-intelligence-resources/kimball-techniques/dimensional-modeling-techniques/
+    idioma: en
+    tipo: guia
+    nivel: basico
+  - titulo: 'dbdiagram.io: desenhe diagramas de banco de dados (gratuito)'
+    url: https://dbdiagram.io/home
+    idioma: en
+    tipo: ferramenta
+    nivel: basico
+  - titulo: Normalização de banco de dados (Microsoft)
+    url: https://learn.microsoft.com/pt-br/office/troubleshoot/access/database-normalization-description
+    idioma: pt
+    tipo: guia
+    nivel: basico
+  - titulo: 'Database Star: guia de design de banco de dados'
+    url: https://www.databasestar.com/database-design/
+    idioma: en
+    tipo: guia
+    nivel: basico
+  - titulo: 'dbt: guia de modelagem dimensional'
+    url: https://docs.getdbt.com/blog/kimball-dimensional-model
+    idioma: en
+    tipo: guia
+    nivel: intermediario
+  mongodb:
+  - titulo: Documentação do MongoDB
+    url: https://www.mongodb.com/docs/
+    idioma: en
+    tipo: documentação
+    nivel: basico
+  - titulo: 'MongoDB University: cursos gratuitos'
+    url: https://learn.mongodb.com/
+    idioma: en
+    tipo: curso
+    nivel: basico
+  mysql:
+  - titulo: Documentação do MySQL
+    url: https://dev.mysql.com/doc/
+    idioma: en
+    tipo: documentação
+    nivel: basico
+  - titulo: MySQL Tutorial
+    url: https://www.mysqltutorial.org/
+    idioma: en
+    tipo: curso
+    nivel: basico
+  - titulo: 'MySQL: guia de primeiros passos'
+    url: https://dev.mysql.com/doc/mysql-getting-started/en/
+    idioma: en
+    tipo: documentação
+    nivel: basico
+  - titulo: 'W3Schools: tutorial de MySQL'
+    url: https://www.w3schools.com/mysql/
+    idioma: en
+    tipo: curso
+    nivel: basico
+  nlp:
+  - titulo: Curso de NLP da Hugging Face
+    url: https://huggingface.co/learn/nlp-course
+    idioma: en
+    tipo: curso
+    nivel: basico
+  nosql:
+  - titulo: 'MongoDB University: cursos gratuitos'
+    url: https://learn.mongodb.com/
+    idioma: en
+    tipo: curso
+    nivel: basico
+  - titulo: 'Redis University: cursos gratuitos'
+    url: https://university.redis.io/
+    idioma: en
+    tipo: curso
+    nivel: basico
+  oracle:
+  - titulo: Documentação do Oracle Database
+    url: https://docs.oracle.com/en/database/
+    idioma: en
+    tipo: documentação
+    nivel: basico
+  - titulo: 'Oracle Live SQL: pratique no navegador'
+    url: https://livesql.oracle.com/
+    idioma: en
+    tipo: ferramenta
+    nivel: basico
+  - titulo: Oracle Tutorial
+    url: https://www.oracletutorial.com/
+    idioma: en
+    tipo: curso
+    nivel: basico
+  - titulo: 'Oracle Dev Gym: exercícios gratuitos'
+    url: https://devgym.oracle.com/
+    idioma: en
+    tipo: curso
+    nivel: basico
+  pandas:
+  - titulo: 10 minutos de pandas
+    url: https://pandas.pydata.org/docs/user_guide/10min.html
+    idioma: en
+    tipo: documentação
+    nivel: basico
+  - titulo: 'Kaggle Learn: pandas'
+    url: https://www.kaggle.com/learn/pandas
+    idioma: en
+    tipo: curso
+    nivel: basico
+  - titulo: Python for Data Analysis, 3ª ed. (livro online do autor do pandas)
+    url: https://wesmckinney.com/book/
+    idioma: en
+    tipo: livro
+    nivel: basico
+  - titulo: Guia do usuário do pandas
+    url: https://pandas.pydata.org/docs/user_guide/index.html
+    idioma: en
+    tipo: documentação
+    nivel: intermediario
+  postgresql:
+  - titulo: Documentação do PostgreSQL
+    url: https://www.postgresql.org/docs/current/
+    idioma: en
+    tipo: documentação
+    nivel: basico
+  - titulo: PostgreSQL Tutorial
+    url: https://www.postgresqltutorial.com/
+    idioma: en
+    tipo: curso
+    nivel: basico
+  - titulo: PostgreSQL Exercises
+    url: https://pgexercises.com/
+    idioma: en
+    tipo: curso
+    nivel: basico
+  - titulo: The Internals of PostgreSQL (livro aberto)
+    url: https://www.interdb.jp/pg/
+    idioma: en
+    tipo: livro
+    nivel: avancado
+  power_bi:
+  - titulo: Documentação do Power BI
+    url: https://learn.microsoft.com/pt-br/power-bi/
+    idioma: pt
+    tipo: documentação
+    nivel: basico
+  - titulo: 'Microsoft Learn: trilha de Power BI'
+    url: https://learn.microsoft.com/pt-br/training/powerplatform/power-bi
+    idioma: pt
+    tipo: curso
+    nivel: basico
+  - titulo: 'Guy in a Cube: vídeos de Power BI'
+    url: https://www.youtube.com/@GuyInACube
+    idioma: en
+    tipo: vídeo
+    nivel: basico
+  - titulo: 'SQLBI: artigos e vídeos de modelagem e DAX'
+    url: https://www.sqlbi.com/
+    idioma: en
+    tipo: guia
+    nivel: intermediario
+  power_query:
+  - titulo: Documentação do Power Query
+    url: https://learn.microsoft.com/pt-br/power-query/
+    idioma: pt
+    tipo: documentação
+    nivel: basico
+  - titulo: 'Power Query How: guias práticos'
+    url: https://powerquery.how/
+    idioma: en
+    tipo: guia
+    nivel: basico
+  - titulo: 'Microsoft Learn: limpar e transformar dados no Power BI'
+    url: https://learn.microsoft.com/pt-br/training/modules/clean-data-power-bi/
+    idioma: pt
+    tipo: curso
+    nivel: basico
+  - titulo: Referência da linguagem M
+    url: https://learn.microsoft.com/pt-br/powerquery-m/
+    idioma: pt
+    tipo: documentação
+    nivel: intermediario
+  python:
+  - titulo: Tutorial oficial de Python
+    url: https://docs.python.org/pt-br/3/tutorial/
+    idioma: pt
+    tipo: documentação
+    nivel: basico
+  - titulo: Think Python (livro aberto)
+    url: https://allendowney.github.io/ThinkPython/
+    idioma: en
+    tipo: livro
+    nivel: basico
+  - titulo: Automate the Boring Stuff with Python (livro online)
+    url: https://automatetheboringstuff.com/
+    idioma: en
+    tipo: livro
+    nivel: basico
+  - titulo: 'Kaggle Learn: Python'
+    url: https://www.kaggle.com/learn/python
+    idioma: en
+    tipo: curso
+    nivel: basico
+  - titulo: Python para Zumbis
+    url: https://pycursos.com/python-para-zumbis/
+    idioma: pt
+    tipo: curso
+    nivel: basico
+  - titulo: 'Wiki da Python Brasil: tutoriais em português'
+    url: https://wiki.python.org.br/
+    idioma: pt
+    tipo: guia
+    nivel: basico
+  - titulo: The Hitchhiker's Guide to Python
+    url: https://docs.python-guide.org/
+    idioma: en
+    tipo: guia
+    nivel: intermediario
+  - titulo: Python Data Science Handbook (livro online)
+    url: https://jakevdp.github.io/PythonDataScienceHandbook/
+    idioma: en
+    tipo: livro
+    nivel: intermediario
+  pytorch:
+  - titulo: Tutoriais do PyTorch
+    url: https://docs.pytorch.org/tutorials/
+    idioma: en
+    tipo: documentação
+    nivel: basico
+  - titulo: Learn PyTorch for Deep Learning (livro online)
+    url: https://www.learnpytorch.io/
+    idioma: en
+    tipo: livro
+    nivel: basico
+  r:
+  - titulo: R para Ciência de Dados (livro gratuito)
+    url: https://r4ds.hadley.nz/
+    idioma: en
+    tipo: livro
+    nivel: basico
+  - titulo: 'swirl: aprenda R dentro do próprio R'
+    url: https://swirlstats.com/
+    idioma: en
+    tipo: curso
+    nivel: basico
+  - titulo: 'Curso-R: material gratuito em português'
+    url: https://curso-r.com/material/
+    idioma: pt
+    tipo: curso
+    nivel: basico
+  - titulo: Advanced R (livro online)
+    url: https://adv-r.hadley.nz/
+    idioma: en
+    tipo: livro
+    nivel: avancado
+  rag:
+  - titulo: Tutorial de RAG (LangChain)
+    url: https://python.langchain.com/docs/tutorials/rag/
+    idioma: en
+    tipo: documentação
+    nivel: intermediario
+  - titulo: 'LlamaIndex: documentação'
+    url: https://docs.llamaindex.ai/
+    idioma: en
+    tipo: documentação
+    nivel: intermediario
+  sap:
+  - titulo: 'SAP Learning: trilhas de aprendizado gratuitas'
+    url: https://learning.sap.com/
+    idioma: en
+    tipo: curso
+    nivel: basico
+  scikit_learn:
+  - titulo: Guia do usuário do scikit-learn
+    url: https://scikit-learn.org/stable/user_guide.html
+    idioma: en
+    tipo: documentação
+    nivel: basico
+  - titulo: 'scikit-learn MOOC (Inria): curso aberto'
+    url: https://inria.github.io/scikit-learn-mooc/
+    idioma: en
+    tipo: curso
+    nivel: basico
+  shell:
+  - titulo: Manual do Bash
+    url: https://www.gnu.org/software/bash/manual/
+    idioma: en
+    tipo: documentação
+    nivel: basico
+  - titulo: Bash Guide (Greg's Wiki)
+    url: https://mywiki.wooledge.org/BashGuide
+    idioma: en
+    tipo: guia
+    nivel: basico
+  - titulo: 'Learn Shell: tutorial interativo'
+    url: https://www.learnshell.org/
+    idioma: en
+    tipo: curso
+    nivel: basico
+  - titulo: 'ShellCheck: analisador de scripts de código aberto'
+    url: https://www.shellcheck.net/
+    idioma: en
+    tipo: ferramenta
+    nivel: intermediario
+  snowflake:
+  - titulo: Documentação do Snowflake
+    url: https://docs.snowflake.com/
+    idioma: en
+    tipo: documentação
+    nivel: basico
+  - titulo: Snowflake Quickstarts
+    url: https://quickstarts.snowflake.com/
+    idioma: en
+    tipo: curso
+    nivel: basico
+  spark:
+  - titulo: Guia oficial do Apache Spark
+    url: https://spark.apache.org/docs/latest/
+    idioma: en
+    tipo: documentação
+    nivel: basico
+  - titulo: 'PySpark: primeiros passos (DataFrame)'
+    url: https://spark.apache.org/docs/latest/api/python/getting_started/quickstart_df.html
+    idioma: en
+    tipo: documentação
+    nivel: basico
+  - titulo: 'Spark By Examples: exemplos em PySpark'
+    url: https://sparkbyexamples.com/
+    idioma: en
+    tipo: guia
+    nivel: basico
+  - titulo: Referência da API PySpark
+    url: https://spark.apache.org/docs/latest/api/python/index.html
+    idioma: en
+    tipo: documentação
+    nivel: intermediario
+  sql:
+  - titulo: 'SQLBolt: exercícios interativos de SQL'
+    url: https://sqlbolt.com/
+    idioma: en
+    tipo: curso
+    nivel: basico
+  - titulo: 'SQL Murder Mystery: aprenda SQL resolvendo um crime'
+    url: https://mystery.knightlab.com/
+    idioma: en
+    tipo: jogo
+    nivel: basico
+  - titulo: 'SQLZoo: tutorial interativo'
+    url: https://sqlzoo.net/
+    idioma: en
+    tipo: curso
+    nivel: basico
+  - titulo: PostgreSQL Exercises
+    url: https://pgexercises.com/
+    idioma: en
+    tipo: curso
+    nivel: basico
+  - titulo: 'Select Star SQL: livro interativo'
+    url: https://selectstarsql.com/
+    idioma: en
+    tipo: livro
+    nivel: basico
+  - titulo: 'Kaggle Learn: Intro to SQL'
+    url: https://www.kaggle.com/learn/intro-to-sql
+    idioma: en
+    tipo: curso
+    nivel: basico
+  - titulo: 'Khan Academy: introdução ao SQL'
+    url: https://www.khanacademy.org/computing/computer-programming/sql
+    idioma: en
+    tipo: curso
+    nivel: basico
+  - titulo: 'Mode: tutorial de SQL'
+    url: https://mode.com/sql-tutorial/
+    idioma: en
+    tipo: curso
+    nivel: basico
+  - titulo: Tutorial de SQL do PostgreSQL
+    url: https://www.postgresql.org/docs/current/tutorial-sql.html
+    idioma: en
+    tipo: documentação
+    nivel: basico
+  - titulo: 'Kaggle Learn: Advanced SQL'
+    url: https://www.kaggle.com/learn/advanced-sql
+    idioma: en
+    tipo: curso
+    nivel: intermediario
+  - titulo: 'Use The Index, Luke: índices e desempenho'
+    url: https://use-the-index-luke.com/
+    idioma: en
+    tipo: livro
+    nivel: avancado
+  sql_server:
+  - titulo: Documentação do SQL Server
+    url: https://learn.microsoft.com/pt-br/sql/sql-server/
+    idioma: pt
+    tipo: documentação
+    nivel: basico
+  - titulo: 'Microsoft Learn: primeiros passos com Transact-SQL'
+    url: https://learn.microsoft.com/pt-br/training/paths/get-started-querying-with-transact-sql/
+    idioma: pt
+    tipo: curso
+    nivel: basico
+  - titulo: SQL Server Tutorial
+    url: https://www.sqlservertutorial.net/
+    idioma: en
+    tipo: curso
+    nivel: basico
+  - titulo: Documentação do SQL Server Management Studio
+    url: https://learn.microsoft.com/pt-br/ssms/
+    idioma: pt
+    tipo: documentação
+    nivel: basico
+  tableau:
+  - titulo: Tutorial de introdução ao Tableau
+    url: https://help.tableau.com/current/guides/get-started-tutorial/pt-br/get-started-tutorial-home.htm
+    idioma: pt
+    tipo: documentação
+    nivel: basico
+  - titulo: 'Tableau: vídeos de treinamento gratuitos'
+    url: https://www.tableau.com/learn/training
+    idioma: en
+    tipo: vídeo
+    nivel: basico
+  - titulo: 'Galeria do Tableau Public: inspiração e projetos'
+    url: https://public.tableau.com/app/discover
+    idioma: en
+    tipo: ferramenta
+    nivel: basico
+  tensorflow:
+  - titulo: Tutoriais do TensorFlow
+    url: https://www.tensorflow.org/tutorials
+    idioma: pt
+    tipo: documentação
+    nivel: basico
+  terraform:
+  - titulo: Tutoriais do Terraform
+    url: https://developer.hashicorp.com/terraform/tutorials
+    idioma: en
+    tipo: documentação
+    nivel: basico
+  - titulo: 'OpenTofu: alternativa de código aberto ao Terraform'
+    url: https://opentofu.org/docs/
+    idioma: en
+    tipo: documentação
+    nivel: intermediario
+  testes_ab:
+  - titulo: Calculadoras de teste A/B (Evan Miller)
+    url: https://www.evanmiller.org/ab-testing/
+    idioma: en
+    tipo: ferramenta
+    nivel: basico
+  - titulo: 'Udacity: A/B Testing (gratuito)'
+    url: https://www.udacity.com/course/ab-testing--ud257
+    idioma: en
+    tipo: curso
+    nivel: intermediario
+  unity_catalog:
+  - titulo: Unity Catalog
+    url: https://docs.databricks.com/aws/en/data-governance/unity-catalog/
+    idioma: en
+    tipo: documentação
+    nivel: intermediario
+  - titulo: Unity Catalog de código aberto
+    url: https://github.com/unitycatalog/unitycatalog
+    idioma: en
+    tipo: repositório
+    nivel: intermediario
+    licenca: Apache-2.0
+  xgboost:
+  - titulo: Documentação do XGBoost
+    url: https://xgboost.readthedocs.io/
+    idioma: en
+    tipo: documentação
+    nivel: intermediario

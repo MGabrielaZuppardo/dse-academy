@@ -33,7 +33,7 @@ from enrichment.schema import (
 log = logging.getLogger(__name__)
 
 BASE_URL = "https://employability-portal.gupy.io/api/v1/jobs"
-USER_AGENT = "portal-vagas-dados-academy/0.1 (projeto comunitario; coleta de vagas de dados)"
+USER_AGENT = "dse-academy/0.1 (projeto comunitario; coleta de vagas de dados)"
 
 TERMOS_BUSCA = [
     "dados",

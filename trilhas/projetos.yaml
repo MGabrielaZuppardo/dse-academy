@@ -1,0 +1,355 @@
+# Ideias de mini-projeto por tecnologia (id da taxonomia -> lista de {titulo, descricao}).
+#
+# Cada etapa da trilha mostra 5 ideias, escolhidas daqui entre as tecnologias da própria etapa (uma de cada
+# tecnologia por rodada, na ordem de demanda) e completadas com as ideias de `geral` do nível quando faltar.
+# Escreva ideias concretas, que dê para entregar em poucos dias e publicar no GitHub, de preferência com dados
+# abertos (Base dos Dados, dados.gov.br, IBGE, Kaggle, Banco Central).
+# titulo: até 80 caracteres.  descricao: de 10 a 300 caracteres.
+
+geral:
+  basico:
+    - titulo: Portfólio no GitHub
+      descricao: Publique os seus mini-projetos em um repositório organizado, cada um com README explicando o problema, os dados e as conclusões.
+    - titulo: Estudo de caso de ponta a ponta
+      descricao: Escolha um dataset aberto, formule uma pergunta de negócio, analise e apresente a resposta em um notebook ou relatório.
+    - titulo: Post explicando o que você aprendeu
+      descricao: Escreva um artigo curto sobre um dos seus projetos, como se explicasse a uma colega iniciante. Dá para enviar ao Medium da DSE.
+  intermediario:
+    - titulo: Pipeline de ponta a ponta documentado
+      descricao: Una coleta, transformação, carga e um painel final em um único projeto, com diagrama da arquitetura e instruções para rodar.
+    - titulo: Reproduzir uma análise publicada
+      descricao: Escolha uma análise de dados aberta (artigo, matéria ou notebook do Kaggle), reproduza os resultados e aponte o que melhoraria.
+    - titulo: Revisão de código de um projeto aberto
+      descricao: Leia o código de um projeto de dados de código aberto, escreva o que entendeu e sugira uma melhoria via issue ou pull request.
+  avancado:
+    - titulo: Contribuição para um projeto de código aberto
+      descricao: Escolha uma ferramenta de dados de código aberto, ache uma issue para iniciantes e envie uma correção ou melhoria de documentação.
+    - titulo: Arquitetura de referência justificada
+      descricao: Desenhe e justifique a arquitetura de dados de um caso realista, comparando alternativas, custos e riscos.
+    - titulo: Palestra ou artigo técnico
+      descricao: Transforme o que aprendeu em uma palestra curta ou artigo técnico e envie para a comunidade DSE.
+
+sql:
+  - titulo: Respondendo perguntas de negócio só com SQL
+    descricao: Num banco de exemplo (Chinook ou Northwind), responda 10 perguntas de negócio usando JOIN, GROUP BY e funções de janela.
+  - titulo: Série histórica de dados públicos brasileiros
+    descricao: Carregue uma tabela da Base dos Dados no PostgreSQL ou DuckDB e escreva consultas que mostrem a evolução do indicador ao longo do tempo.
+  - titulo: Limpeza de dados com SQL
+    descricao: Pegue uma base com duplicatas e nulos e escreva consultas que deduplicam, padronizam textos e documentam cada regra aplicada.
+python:
+  - titulo: Automatize uma tarefa repetitiva
+    descricao: Escreva um script que consolida vários CSV ou Excel de uma pasta, renomeia e organiza os arquivos e gera um relatório.
+  - titulo: Coletor de dados de uma API pública
+    descricao: Consuma uma API aberta (Banco Central, dados.gov.br), trate a resposta, trate erros e salve o resultado em CSV.
+  - titulo: Analisador de gastos pessoais
+    descricao: Leia o extrato bancário em CSV, categorize as despesas por regras e gere um resumo mensal com gráficos.
+pandas:
+  - titulo: Análise exploratória de um dataset
+    descricao: Explore um dataset do Kaggle com tipos, nulos, outliers e correlações, e escreva 5 conclusões no próprio notebook.
+  - titulo: Limpeza de uma base real do governo
+    descricao: Padronize nomes de colunas, datas e valores ausentes de uma base do dados.gov.br e publique o notebook documentado.
+r:
+  - titulo: Relatório reprodutível em Quarto ou R Markdown
+    descricao: Analise um conjunto de dados do IBGE e entregue um relatório em HTML com gráficos feitos em ggplot2.
+  - titulo: Recriar gráficos de uma matéria de dados
+    descricao: Reproduza 5 gráficos de uma reportagem de dados com ggplot2 e explique as escolhas visuais.
+excel:
+  - titulo: Painel financeiro pessoal
+    descricao: Monte um painel com tabelas dinâmicas, segmentações e gráficos a partir de 12 meses de despesas.
+  - titulo: Modelo de orçamento reutilizável
+    descricao: Crie uma planilha com PROCV ou XLOOKUP, SOMASES e validação de dados, pronta para outra pessoa usar sem quebrar.
+power_bi:
+  - titulo: Dashboard de vendas
+    descricao: Importe dados de vendas, modele fato e dimensões e entregue um painel com filtros, KPIs e navegação entre páginas.
+  - titulo: Painel de dados públicos de saúde ou educação
+    descricao: Use dados abertos do governo e conte uma história em 3 páginas, com título que diga a conclusão de cada uma.
+  - titulo: Relatório com atualização automática
+    descricao: Conecte o relatório a uma fonte que muda (pasta, planilha na nuvem ou banco) e configure a atualização agendada.
+power_query:
+  - titulo: Consolidar 12 planilhas mensais
+    descricao: Combine os arquivos de uma pasta, padronize colunas e tipos e carregue um resultado limpo, sem copiar e colar.
+  - titulo: Arrumar uma planilha bagunçada
+    descricao: Transforme uma planilha em formato de relatório (cabeçalhos em várias linhas, células mescladas) em uma tabela limpa.
+dax:
+  - titulo: Biblioteca de medidas
+    descricao: Crie medidas de acumulado no ano, mês anterior, variação percentual e ranking sobre um modelo em estrela.
+  - titulo: Inteligência de tempo
+    descricao: Construa uma tabela calendário e compare períodos (mês contra mês, ano contra ano) usando medidas DAX.
+tableau:
+  - titulo: Dashboard no Tableau Public
+    descricao: Publique um painel interativo com dados abertos e compartilhe o link no seu portfólio.
+  - titulo: Recriar uma visualização de jornal
+    descricao: Reproduza o gráfico de uma matéria de dados no Tableau e explique por que cada escolha visual foi feita.
+looker:
+  - titulo: Relatório no Looker Studio
+    descricao: Conecte uma planilha do Google e monte um relatório com filtros, métricas calculadas e controle de período.
+  - titulo: Painel de métricas de um site
+    descricao: Use dados de acesso (reais ou de exemplo) para criar um painel com séries temporais e comparação entre períodos.
+estatistica:
+  - titulo: Teste de hipótese com dados reais
+    descricao: Escolha uma pergunta (duas turmas têm notas diferentes?) e conduza o teste, com intervalo de confiança e conclusão em linguagem simples.
+  - titulo: Simulação de Monte Carlo
+    descricao: Simule um problema clássico, como o dos aniversários iguais, e compare o resultado simulado com o teórico.
+  - titulo: Correlação não é causalidade
+    descricao: Explore três pares de variáveis de um dataset aberto e escreva por que cada correlação não prova uma relação de causa.
+modelagem_dados:
+  - titulo: Modelo estrela de uma loja
+    descricao: Desenhe as tabelas fato e dimensão de vendas (diagrama e DDL) e popule com dados de exemplo.
+  - titulo: Normalizar uma planilha
+    descricao: Converta uma planilha única em tabelas normalizadas (3FN), com chaves primárias, estrangeiras e relacionamentos.
+  - titulo: Dicionário de dados em Markdown
+    descricao: Documente um banco real (tabelas, colunas, regras e donos) em Markdown versionado no Git.
+etl:
+  - titulo: Pipeline de arquivo para banco
+    descricao: Extraia de uma fonte aberta, transforme com Python e carregue no PostgreSQL com carga incremental.
+  - titulo: ELT em camadas com dados da Base dos Dados
+    descricao: Carregue uma tabela crua e transforme em camadas (bronze, prata e ouro) usando SQL.
+  - titulo: Pipeline idempotente com logs
+    descricao: Garanta que rodar o pipeline duas vezes não duplica dados e registre início, fim e volume de cada execução.
+apis:
+  - titulo: Consumir e expor uma API
+    descricao: Consuma uma API pública e exponha os seus próprios endpoints com FastAPI, com validação e documentação automática.
+  - titulo: Painel de cotações
+    descricao: Colete cotações da API aberta do Banco Central, guarde em um banco e exiba a evolução em um gráfico.
+git:
+  - titulo: Projeto de dados com histórico limpo
+    descricao: Versione um projeto com branches e pull requests, com README, .gitignore adequado e commits que contam a história.
+  - titulo: Resolver conflitos de merge
+    descricao: Simule duas pessoas editando o mesmo arquivo em branches diferentes e resolva o conflito sem perder trabalho.
+linux:
+  - titulo: Processar logs no terminal
+    descricao: Use grep, awk, sed e cron para extrair informações de logs e agendar um relatório diário.
+  - titulo: Servidor local de dados
+    descricao: Instale o PostgreSQL em uma máquina virtual ou no WSL e configure usuários, permissões e um backup agendado.
+shell:
+  - titulo: Automação de backup
+    descricao: Escreva um script bash que compacta uma pasta, nomeia o arquivo pela data e remove backups antigos.
+  - titulo: Pipeline em linha de comando
+    descricao: Encadeie curl, jq e awk para baixar o JSON de uma API pública e resumir os campos mais importantes.
+postgresql:
+  - titulo: Banco de um aplicativo pequeno
+    descricao: Modele, crie e popule um banco com índices e restrições; meça o tempo de uma consulta lenta antes e depois do índice.
+  - titulo: Backup e restauração
+    descricao: Pratique pg_dump e pg_restore, restaure em outro banco e documente o procedimento passo a passo.
+mysql:
+  - titulo: Banco de uma biblioteca
+    descricao: Modele livros, autores e empréstimos, crie as tabelas com chaves estrangeiras e escreva as consultas de relatório.
+  - titulo: Migrar dados entre bancos
+    descricao: Exporte uma base do MySQL e importe no PostgreSQL, tratando as diferenças de tipos, e valide os totais.
+sql_server:
+  - titulo: Consultas T-SQL no AdventureWorks
+    descricao: Instale o banco de exemplo e responda perguntas de negócio com T-SQL, incluindo CTEs e funções de janela.
+  - titulo: Procedure de carga diária
+    descricao: Escreva uma stored procedure que carrega dados de uma tabela de staging para a final, com tratamento de erro e log.
+oracle:
+  - titulo: Exercícios de PL/SQL
+    descricao: Pratique blocos PL/SQL, cursores e funções no Oracle Live SQL e organize os scripts em um repositório.
+  - titulo: Relatório com funções analíticas
+    descricao: Use RANK, LAG e SUM OVER para montar um relatório de vendas por período e vendedor.
+mongodb:
+  - titulo: Catálogo de produtos em documentos
+    descricao: Modele um catálogo em documentos JSON, crie índices e escreva consultas por categoria, preço e texto.
+  - titulo: Agregação sobre logs
+    descricao: Carregue logs de aplicação no MongoDB e use o pipeline de agregação para contar erros por hora e por serviço.
+nosql:
+  - titulo: Relacional contra documento
+    descricao: Modele o mesmo problema em PostgreSQL e em MongoDB, compare consultas, flexibilidade e custo de cada abordagem.
+  - titulo: Cache com Redis
+    descricao: Coloque um cache Redis na frente de uma consulta lenta e meça o ganho de tempo de resposta.
+cassandra:
+  - titulo: Modelar tabelas a partir das consultas
+    descricao: Defina as consultas primeiro e modele as tabelas do Cassandra para atendê-las, justificando as chaves de partição.
+  - titulo: Série temporal de sensores
+    descricao: Armazene leituras de sensores simulados e consulte a janela das últimas 24 horas por dispositivo.
+machine_learning:
+  - titulo: Prever preços de imóveis
+    descricao: Treine um modelo de regressão com um dataset aberto, crie um baseline, faça validação cruzada e interprete as métricas.
+  - titulo: Classificador de cancelamento de clientes
+    descricao: Compare três modelos para prever churn e explique quais variáveis mais pesam na decisão.
+  - titulo: Competição para iniciantes no Kaggle
+    descricao: Participe do Titanic ou do House Prices, envie sua solução e documente o que aprendeu em cada tentativa.
+scikit_learn:
+  - titulo: Pipeline completo de ML
+    descricao: Monte um pipeline com ColumnTransformer, modelo e busca de hiperparâmetros, e salve o resultado com joblib.
+  - titulo: Comparar algoritmos com as mesmas métricas
+    descricao: Avalie regressão logística, árvore de decisão e random forest no mesmo conjunto de validação e escreva a conclusão.
+xgboost:
+  - titulo: Ajuste de hiperparâmetros
+    descricao: Otimize um modelo XGBoost em dados tabulares e mostre quanto cada ajuste melhorou a métrica.
+  - titulo: Explicar o modelo com SHAP
+    descricao: Use SHAP para explicar as previsões do modelo e escreva duas conclusões de negócio.
+lightgbm:
+  - titulo: Modelo rápido em dados tabulares grandes
+    descricao: Treine um LightGBM numa base com milhões de linhas e compare o tempo de treino com outras bibliotecas.
+  - titulo: LightGBM contra XGBoost
+    descricao: Compare os dois no mesmo problema, em desempenho e tempo, e registre quando escolheria cada um.
+nlp:
+  - titulo: Análise de sentimento em português
+    descricao: Classifique avaliações de produtos em português e meça a qualidade com precisão, revocação e matriz de confusão.
+  - titulo: Busca e agrupamento de notícias
+    descricao: Use embeddings para agrupar notícias por assunto e criar uma busca por similaridade.
+tensorflow:
+  - titulo: Classificar imagens
+    descricao: Treine uma rede para classificar imagens (MNIST ou CIFAR-10) e analise os erros mais comuns.
+  - titulo: Previsão de série temporal
+    descricao: Preveja uma série temporal (consumo de energia ou clima) com uma rede recorrente e compare com um baseline simples.
+deep_learning:
+  - titulo: Rede neural do zero
+    descricao: Implemente uma rede neural simples só com NumPy e entenda cada passo do treinamento.
+  - titulo: Transfer learning para imagens
+    descricao: Reaproveite uma rede pré-treinada para classificar um conjunto pequeno de imagens e compare com treinar do zero.
+pytorch:
+  - titulo: Treinar uma CNN
+    descricao: Treine uma rede convolucional com PyTorch, acompanhe a curva de perda e salve o melhor modelo.
+  - titulo: Reproduzir um tutorial e modificá-lo
+    descricao: Reproduza um tutorial oficial, troque o dataset ou a arquitetura e documente o efeito da mudança.
+mlops:
+  - titulo: Modelo servido por API
+    descricao: Versione um modelo, exponha uma API de previsão e rode tudo em contêiner.
+  - titulo: Monitorar mudança nos dados
+    descricao: Simule uma mudança na distribuição dos dados de entrada e crie um alerta que a detecte.
+mlflow:
+  - titulo: Rastrear experimentos
+    descricao: Registre parâmetros, métricas e artefatos de vários experimentos e compare-os na interface do MLflow.
+  - titulo: Registrar e promover um modelo
+    descricao: Use o registro de modelos para versionar e promover um modelo de teste para produção.
+llm:
+  - titulo: Assistente que responde sobre seus documentos
+    descricao: Construa um assistente que responde perguntas sobre um conjunto de PDFs, citando o trecho usado como fonte.
+  - titulo: Comparar prompts
+    descricao: Escolha uma tarefa (resumir, classificar) e meça qual formulação de prompt dá melhores resultados em 20 exemplos.
+rag:
+  - titulo: RAG sobre a legislação
+    descricao: Indexe o texto de uma lei, como a LGPD, e responda perguntas com os artigos relevantes como contexto.
+  - titulo: Avaliar um sistema de RAG
+    descricao: Monte um conjunto de perguntas com respostas esperadas e meça quanto das respostas está de fato apoiado nos documentos.
+docker:
+  - titulo: Containerizar um pipeline de dados
+    descricao: Empacote um script de ETL em uma imagem Docker e rode-o em outra máquina sem instalar nada.
+  - titulo: Ambiente completo com Docker Compose
+    descricao: Suba PostgreSQL, um painel e o seu app de dados juntos com um único comando.
+ci_cd:
+  - titulo: Testes automáticos com GitHub Actions
+    descricao: Configure um fluxo que roda os testes e o lint do seu projeto de dados a cada pull request.
+  - titulo: Entrega automática de um pipeline
+    descricao: Automatize o build da imagem e o deploy de um pipeline a cada alteração na branch principal.
+kubernetes:
+  - titulo: Subir uma aplicação num cluster local
+    descricao: Use o kind ou o minikube para implantar uma aplicação de dados, com Deployment e Service.
+  - titulo: Job agendado com CronJob
+    descricao: Rode um processamento diário como CronJob e acompanhe os logs e as falhas.
+terraform:
+  - titulo: Infraestrutura de dados como código
+    descricao: Descreva em código um bucket e um banco de testes e crie e destrua o ambiente de forma repetível, sem custo.
+  - titulo: Módulo reutilizável
+    descricao: Extraia um trecho de infraestrutura para um módulo com variáveis e use-o em dois ambientes diferentes.
+spark:
+  - titulo: Processar um dataset grande com PySpark
+    descricao: Leia, transforme e agregue uma base de milhões de linhas, escrevendo o resultado em Parquet particionado.
+  - titulo: Comparar pandas e PySpark
+    descricao: Resolva a mesma análise nas duas ferramentas e registre onde cada uma ganha em tempo e em simplicidade.
+hadoop:
+  - titulo: HDFS local com contagem de palavras
+    descricao: Suba um ambiente Hadoop local, guarde arquivos no HDFS e rode o clássico job de contagem de palavras.
+  - titulo: Migrar um job MapReduce para Spark
+    descricao: Reescreva um job simples de MapReduce em Spark e compare o código e o tempo de execução.
+airflow:
+  - titulo: DAG diária de ETL
+    descricao: Crie um DAG que coleta dados todo dia, transforma e carrega, com dependências entre tarefas e tentativas automáticas.
+  - titulo: Alertas e monitoramento de falhas
+    descricao: Adicione sensores e notificação de falha ao DAG e simule um erro para ver o fluxo de recuperação.
+dbt:
+  - titulo: Projeto dbt em camadas com testes
+    descricao: Monte um projeto com camadas de staging e marts, testes de unicidade e não nulo, partindo do Jaffle Shop.
+  - titulo: Documentação e linhagem
+    descricao: Gere a documentação do dbt, descreva os modelos e publique o grafo de linhagem no repositório.
+kafka:
+  - titulo: Produtor e consumidor de eventos
+    descricao: Escreva um produtor que gera eventos simulados e um consumidor que os processa e guarda em um banco.
+  - titulo: Contagem em janelas de tempo
+    descricao: Agregue eventos em janelas de 1 minuto e exiba o resultado quase em tempo real.
+data_lake:
+  - titulo: Zonas raw e curated em Parquet
+    descricao: Organize um data lake local com zonas raw, trusted e curated, particionando os dados em Parquet.
+  - titulo: Tabela com viagem no tempo
+    descricao: Crie uma tabela Delta ou Iceberg, altere dados e consulte versões anteriores para auditoria.
+delta_lake:
+  - titulo: Upsert com MERGE
+    descricao: Aplique atualizações incrementais numa tabela Delta com MERGE e verifique que não há duplicatas.
+  - titulo: Auditoria com time travel
+    descricao: Use o histórico da tabela para desfazer um erro de carga e documentar o que aconteceu.
+data_warehouse:
+  - titulo: Data warehouse de vendas no DuckDB
+    descricao: Monte um DW local com fato e dimensões, carregue dados abertos e escreva consultas analíticas sobre ele.
+  - titulo: Dimensão com histórico (SCD tipo 2)
+    descricao: Implemente uma dimensão que guarda o histórico de mudanças e teste com alterações simuladas.
+databricks:
+  - titulo: Notebook de ponta a ponta
+    descricao: Na edição gratuita do Databricks, leia dados, transforme com Spark e gere um painel final.
+  - titulo: Job agendado
+    descricao: Agende o notebook como job diário, com parâmetros e alerta em caso de falha.
+bigquery:
+  - titulo: Análise no sandbox com dados da Base dos Dados
+    descricao: Use o sandbox gratuito do BigQuery para analisar uma tabela pública brasileira e responder uma pergunta.
+  - titulo: Particionamento e custo
+    descricao: Compare o volume lido por consultas com e sem partição e escreva como reduzir o custo.
+aws:
+  - titulo: Data lake no S3 com Athena
+    descricao: Guarde dados em Parquet no S3 e consulte com SQL no Athena, medindo o custo de cada consulta.
+  - titulo: Função Lambda que processa arquivos
+    descricao: Dispare uma função Lambda quando um arquivo cair no S3 e grave o resultado tratado em outro bucket.
+aws_s3:
+  - titulo: Estrutura de bucket por zonas
+    descricao: Organize um bucket em zonas e prefixos por data, com regras de acesso e justifique cada decisão.
+  - titulo: Ciclo de vida e versionamento
+    descricao: Configure versionamento e regras de expiração e teste a recuperação de um arquivo apagado.
+aws_glue:
+  - titulo: Crawler e job de ETL
+    descricao: Catalogue dados do S3 com um crawler e transforme-os com um job do Glue.
+  - titulo: Catálogo de dados
+    descricao: Organize bancos e tabelas no Glue Data Catalog e consulte-os pelo Athena.
+azure:
+  - titulo: Dados no nível gratuito do Azure
+    descricao: Armazene arquivos em um Blob Storage e consulte-os com um serviço do nível gratuito.
+  - titulo: Pipeline simples na nuvem
+    descricao: Monte um fluxo que coleta, guarda e disponibiliza dados usando só serviços gerenciados.
+azure_data_factory:
+  - titulo: Copiar dados entre fontes
+    descricao: Crie um pipeline que copia dados de uma API ou arquivo para um banco, com agendamento.
+  - titulo: Pipeline parametrizado
+    descricao: Parametrize o pipeline para rodar a mesma lógica em várias tabelas e registre o resultado de cada uma.
+gcp:
+  - titulo: Dados no Cloud Storage e BigQuery
+    descricao: Envie arquivos ao Cloud Storage, carregue no BigQuery e responda perguntas de negócio com SQL.
+  - titulo: Função na nuvem para tratar arquivos
+    descricao: Dispare uma Cloud Function quando um arquivo chegar ao bucket e grave o resultado tratado.
+governanca_dados:
+  - titulo: Catálogo de dados de uma base
+    descricao: Documente tabelas, donos e definições de negócio de uma base em um catálogo simples, mesmo que seja uma planilha.
+  - titulo: Política de classificação e acesso
+    descricao: Classifique os dados de um sistema fictício em níveis de sensibilidade e defina quem pode acessar cada um.
+data_quality:
+  - titulo: Testes de qualidade com Great Expectations
+    descricao: Escreva expectativas (nulos, unicidade, faixas válidas) para uma base e gere o relatório de validação.
+  - titulo: Painel de qualidade dos dados
+    descricao: Calcule métricas de completude e consistência por tabela e acompanhe-as ao longo do tempo.
+lgpd:
+  - titulo: Mapa de dados pessoais
+    descricao: Levante quais dados pessoais um sistema fictício coleta, para que e por quanto tempo, no formato de um inventário.
+  - titulo: Anonimização de uma base
+    descricao: Aplique pseudonimização e generalização em uma base de exemplo e discuta o risco de reidentificação que restou.
+unity_catalog:
+  - titulo: Organizar catálogo, esquema e permissões
+    descricao: Estruture um catálogo com esquemas por domínio e conceda acessos por grupo, com o princípio do menor privilégio.
+  - titulo: Linhagem de dados
+    descricao: Rastreie de onde vem uma tabela final e documente o caminho até as fontes.
+testes_ab:
+  - titulo: Planejar o tamanho da amostra
+    descricao: Calcule o tamanho de amostra de um experimento de conversão e explique como o efeito mínimo muda o resultado.
+  - titulo: Analisar um experimento simulado
+    descricao: Simule um teste A/B, analise com teste de proporções e escreva uma recomendação clara.
+sap:
+  - titulo: Mapa de tabelas-chave de um módulo
+    descricao: Documente as principais tabelas de um módulo (FI ou MM) e como os dados fluem entre elas.
+  - titulo: Relatório com dados de exemplo
+    descricao: Use um extrato de exemplo para montar um relatório de ponta a ponta, do dado bruto ao painel.
