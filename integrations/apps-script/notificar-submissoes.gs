@@ -19,6 +19,8 @@
 var MARCA_ARTIGO = 'DSE-ARTIGO:';
 var LEMBRETE_PADRAO = 'gabrielamzuppardo@gmail.com';
 var TITULO_LEMBRETE = 'Revisar os posts da semana no Medium';
+/** Hora (0 a 23) em que a revisão acontece na segunda-feira: 19 = 7 da noite. */
+var HORA_LEMBRETE = 19;
 
 var ROTULOS = {
   submissoes_artigos: {
@@ -207,7 +209,7 @@ function descricaoDoLembrete(artigos) {
 
 /**
  * Toda segunda-feira (gatilho criado por instalarGatilhos): cria no Agenda da DSE o evento "Revisar os posts da semana
- * no Medium", às 9h, convidando a pessoa de LEMBRETE_PARA (o convite chega por e-mail e vira notificação no Agenda dela).
+ * no Medium", às 19h, convidando a pessoa de LEMBRETE_PARA (o convite chega por e-mail e vira notificação no Agenda dela).
  * A descrição lista os artigos marcados para a semana. Não duplica se o evento da semana já existir.
  */
 function lembreteSemanal() {
@@ -221,7 +223,7 @@ function lembreteSemanal() {
     .map(function (e) { return { dia: formatarDia(e.getAllDayStartDate()), titulo: e.getTitle().replace(/^Artigo:\s*/, '') }; })
     .sort(function (a, b) { return a.dia < b.dia ? -1 : a.dia > b.dia ? 1 : 0; });
 
-  var inicio = new Date(semana.inicio.getFullYear(), semana.inicio.getMonth(), semana.inicio.getDate(), 9, 0);
+  var inicio = new Date(semana.inicio.getFullYear(), semana.inicio.getMonth(), semana.inicio.getDate(), HORA_LEMBRETE, 0);
   var fim = new Date(inicio.getTime() + 30 * 60 * 1000);
   var jaExiste = agenda.getEvents(inicio, fim).some(function (e) { return e.getTitle() === TITULO_LEMBRETE; });
   if (jaExiste) { console.log('Lembrete desta semana já existe'); return false; }

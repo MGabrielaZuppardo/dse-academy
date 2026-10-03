@@ -206,7 +206,7 @@ test("semanaDe começa na segunda-feira, inclusive quando o dia é domingo", () 
   assert.equal(segunda.inicio.getDate(), 5);
 });
 
-test("lembrete semanal convida a Gabriela, às 9h de segunda, listando os artigos da semana", () => {
+test("lembrete semanal convida a Gabriela, às 19h de segunda, listando os artigos da semana", () => {
   const { ctx, eventos } = ambiente(PROPS);
   const hoje = new Date();
   const seg = ctx.semanaDe(hoje).inicio;
@@ -220,7 +220,7 @@ test("lembrete semanal convida a Gabriela, às 9h de segunda, listando os artigo
   assert.ok(lembrete);
   assert.equal(lembrete.convidados, "gabrielamzuppardo@gmail.com");
   assert.equal(lembrete.convites, true);
-  assert.equal(lembrete.inicio.getHours(), 9);
+  assert.equal(lembrete.inicio.getHours(), 19);
   assert.equal(lembrete.inicio.getDay(), 1); // segunda-feira
   assert.deepEqual(lembrete.lembretes, [10]);
   assert.match(lembrete.descricao, /Artigo 1/);
