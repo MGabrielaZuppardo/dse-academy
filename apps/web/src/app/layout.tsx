@@ -1,3 +1,4 @@
+import { LinkAdmin } from "@/components/link-admin";
 import type { Metadata } from "next";
 import { IBM_Plex_Sans, Saira } from "next/font/google";
 import Image from "next/image";
@@ -45,6 +46,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
                 <Link href="/perfil" className="hover:text-azul-claro">Meu perfil</Link>
                 <Link href="/artigos/enviar" className="hover:text-azul-claro">Enviar artigo</Link>
                 <Link href="/palestrantes/cadastro" className="hover:text-azul-claro">Seja palestrante</Link>
+                <LinkAdmin />
               </nav>
               <div className="order-2 md:order-3"><AlternarTema /></div>
             </div>

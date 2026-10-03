@@ -9,6 +9,7 @@ import { jaPulouOnboarding } from "@/lib/onboarding";
 import { canonicas, paraLinha, validar } from "@/lib/perfil";
 import { AREAS, NIVEIS, slugDaVaga } from "@/lib/rotulos";
 import { estiloBotao } from "@/lib/botoes";
+import { ResumoAtividade } from "./resumo-atividade";
 
 const campo = "mt-1 w-full rounded-lg border border-borda bg-superficie px-3 py-2";
 
@@ -86,6 +87,8 @@ function EditarPerfil({ skills }: { skills: Record<string, string> }) {
         para mostrar o que estudar nas <Link href="/trilhas" className="text-link underline">trilhas</Link>.{" "}
         <Link href="/boas-vindas" className="text-link underline">Refazer a configuração guiada</Link>.
       </p>
+
+      <ResumoAtividade />
 
       <form onSubmit={salvar} noValidate className="mt-6 space-y-5 rounded-2xl border border-borda bg-superficie p-5 sm:p-6">
         <div>
