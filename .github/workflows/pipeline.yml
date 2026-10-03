@@ -110,7 +110,8 @@ jobs:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
         run: |
           python -m app.exportar_json
-          python -m trilhas.gerar
+          # Se a Groq falhar (modelo descontinuado, chave inválida, cota), as trilhas saem por regras em vez de quebrar o job.
+          python -m trilhas.gerar || python -m trilhas.gerar --provedor nenhum
 
       - name: Commitar se houver mudança
         run: |

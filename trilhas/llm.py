@@ -21,7 +21,7 @@ from enrichment.extractor import ChamadaLLM, CotaEsgotada
 load_dotenv()
 
 GROQ_URL = os.environ.get("GROQ_URL") or "https://api.groq.com/openai/v1"
-MODELO_GROQ = os.environ.get("GROQ_MODEL") or "llama-3.3-70b-versatile"
+MODELO_GROQ = os.environ.get("GROQ_MODEL") or "openai/gpt-oss-120b"
 OLLAMA_URL = os.environ.get("OLLAMA_URL") or "http://localhost:11434"
 MODELO_OLLAMA = os.environ.get("OLLAMA_MODEL") or "qwen2.5:7b"
 
