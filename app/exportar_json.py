@@ -20,6 +20,7 @@ from app.dados import DIR_ENRIQUECIDO, DIR_RAW, carregar_enriquecimentos, montar
 from enrichment.taxonomia import Taxonomia
 
 SAIDA = Path("apps/web/data")
+TAXONOMIA_JSON = Path("apps/web/src/dados/taxonomia.json")  # versionado: é conteúdo do projeto, não dado da Gupy
 
 
 def visiveis(vagas: list[dict], hoje: date) -> list[dict]:
@@ -28,6 +29,23 @@ def visiveis(vagas: list[dict], hoje: date) -> list[dict]:
         v for v in vagas
         if v["contrato"] != "banco_talentos" and v["area"] != "fora_do_escopo" and not (v["prazo"] and v["prazo"][:10] < limite)
     ]
+
+
+def contexto_da_taxonomia(taxonomia: Taxonomia) -> dict:
+    """O que o front precisa para reconhecer as habilidades da pessoa e calcular a aderência às vagas."""
+    return {
+        "skills": {s.id: s.nome for s in taxonomia.skills.values()},
+        "sinonimos": taxonomia.indice(),  # chave_skill(texto) -> id (inclui o nome oficial de cada skill)
+        "pais": {s.id: s.pai for s in taxonomia.skills.values() if s.pai},  # quem sabe Glue também sabe AWS
+    }
+
+
+def exportar_taxonomia(destino: Path = TAXONOMIA_JSON) -> Path:
+    """Grava skills, sinônimos e pais para o front reconhecer habilidades e calcular a aderência. Empacotado no JavaScript."""
+    destino.parent.mkdir(parents=True, exist_ok=True)
+    texto = json.dumps(contexto_da_taxonomia(Taxonomia.carregar()), ensure_ascii=False, indent=1, sort_keys=True) + chr(10)
+    destino.write_text(texto, encoding="utf-8", newline=chr(10))
+    return destino
 
 
 def carregar_visiveis(
@@ -48,7 +66,7 @@ def exportar(saida: Path = SAIDA, dir_raw: Path = DIR_RAW, dir_enriquecido: Path
 
     dados = {
         "coletada_em": coletada_em.isoformat(),
-        "skills": {s.id: s.nome for s in taxonomia.skills.values()},
+        "skills": contexto_da_taxonomia(taxonomia)["skills"],
         "vagas": vagas,
     }
     saida.mkdir(parents=True, exist_ok=True)
@@ -62,7 +80,8 @@ def main() -> None:
     parser.add_argument("--saida", type=Path, default=SAIDA)
     args = parser.parse_args()
     resumo = exportar(args.saida)
-    print(f"{resumo['vagas']} vagas exportadas para {resumo['saida']}")
+    exportar_taxonomia()
+    print(f"{resumo['vagas']} vagas exportadas para {resumo['saida']} e a taxonomia para {TAXONOMIA_JSON}")
 
 
 if __name__ == "__main__":

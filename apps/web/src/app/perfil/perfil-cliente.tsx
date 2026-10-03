@@ -1,91 +1,53 @@
 "use client";
 
-import type { User } from "@supabase/supabase-js";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState, type FormEvent } from "react";
-import { canonicas, paraLinha, validar, type LinhaPerfil } from "@/lib/perfil";
-import { AREAS, NIVEIS } from "@/lib/rotulos";
-import { configurado, supabaseNoNavegador } from "@/lib/supabase/client";
+import { Entrar } from "@/components/entrar";
+import { useConta } from "@/lib/conta/contexto";
+import { jaPulouOnboarding } from "@/lib/onboarding";
+import { canonicas, paraLinha, validar } from "@/lib/perfil";
+import { AREAS, NIVEIS, slugDaVaga } from "@/lib/rotulos";
+import { estiloBotao } from "@/lib/botoes";
 
 const campo = "mt-1 w-full rounded-lg border border-borda bg-superficie px-3 py-2";
-const botao = "rounded-lg bg-azul px-5 py-2.5 font-semibold text-white hover:opacity-90 disabled:opacity-60";
 
-type Estado = { fase: "carregando" } | { fase: "visitante" } | { fase: "logada"; usuario: User; perfil: LinhaPerfil | null };
-
-export function PerfilCliente({ skills }: { skills: Record<string, string> }) {
-  const ok = configurado();
-  const [estado, setEstado] = useState<Estado>({ fase: "carregando" });
+export function PerfilCliente({ skills, vagasNoAr }: { skills: Record<string, string>; vagasNoAr: string[] }) {
+  const conta = useConta();
+  const router = useRouter();
+  const desviarParaOnboarding = conta.precisaDeOnboarding && !jaPulouOnboarding();
 
   useEffect(() => {
-    if (!ok) return;
-    const sb = supabaseNoNavegador();
-    let ativo = true;
+    if (desviarParaOnboarding) router.replace("/boas-vindas");
+  }, [desviarParaOnboarding, router]);
 
-    async function carregar(usuario: User | null) {
-      if (!usuario) { if (ativo) setEstado({ fase: "visitante" }); return; }
-      const { data, error } = await sb.from("perfis").select("nome, area, senioridade, habilidades").eq("id", usuario.id).maybeSingle();
-      if (!ativo) return;
-      if (error) console.error(error);
-      setEstado({ fase: "logada", usuario, perfil: data });
-    }
-
-    // Cobre o retorno do link do e-mail (?code=...), que o supabase-js troca por sessão sozinho.
-    const { data: ouvinte } = sb.auth.onAuthStateChange((_evento, sessao) => { void carregar(sessao?.user ?? null); });
-    void sb.auth.getSession().then(({ data }) => carregar(data.session?.user ?? null));
-    return () => { ativo = false; ouvinte.subscription.unsubscribe(); };
-  }, [ok]);
-
-  if (!ok) {
+  if (!conta.disponivel) {
     return <p role="alert" className="rounded-lg border border-erro p-4 text-erro">O login ainda não está configurado neste ambiente.</p>;
   }
-  if (estado.fase === "carregando") return <p role="status" className="text-suave">Carregando…</p>;
-  if (estado.fase === "visitante") return <Entrar />;
-  return <EditarPerfil usuario={estado.usuario} inicial={estado.perfil} skills={skills} />;
-}
-
-function Entrar() {
-  const [email, setEmail] = useState("");
-  const [fase, setFase] = useState<"preenchendo" | "enviando" | "enviado">("preenchendo");
-  const [erro, setErro] = useState<string | null>(null);
-
-  async function enviar(e: FormEvent) {
-    e.preventDefault();
-    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.trim())) { setErro("Informe um e-mail válido."); return; }
-    setErro(null);
-    setFase("enviando");
-    const { error } = await supabaseNoNavegador().auth.signInWithOtp({
-      email: email.trim(),
-      options: { emailRedirectTo: `${location.origin}/perfil` },
-    });
-    if (error) { console.error(error); setErro("Não foi possível enviar o link agora. Tente de novo em instantes."); setFase("preenchendo"); return; }
-    setFase("enviado");
+  if (conta.fase === "carregando" || (conta.fase === "logada" && !conta.dadosProntos) || desviarParaOnboarding) {
+    return <p role="status" className="text-suave">Carregando…</p>;
   }
-
+  if (conta.fase === "visitante") return <Entrar />;
+  if (!conta.perfilLido && conta.perfil === null && conta.dadosProntos && !conta.precisaDeOnboarding) {
+    // A leitura do perfil falhou: não mostramos o formulário vazio, para a pessoa não sobrescrever o que já tem guardado.
+    return (
+      <p role="alert" className="rounded-lg border border-erro p-4 text-erro">
+        Não foi possível carregar o seu perfil agora. Recarregue a página em instantes.
+      </p>
+    );
+  }
   return (
     <>
-      <h1 className="font-display text-3xl font-bold text-titulo">Criar meu perfil</h1>
-      <p className="mt-2 max-w-2xl text-suave">
-        Entre com o seu e-mail, sem senha: enviamos um link de acesso. Na primeira vez, o perfil é criado por você aqui mesmo.
-      </p>
-      {fase === "enviado" ? (
-        <div role="status" className="mt-6 rounded-2xl border border-borda bg-superficie p-6">
-          <h2 className="font-display text-xl font-semibold text-titulo">Confira seu e-mail</h2>
-          <p className="mt-2 text-suave">Enviamos um link para <strong>{email.trim()}</strong>. Abra-o neste mesmo navegador para entrar.</p>
-        </div>
-      ) : (
-        <form onSubmit={enviar} noValidate className="mt-6 max-w-md space-y-4 rounded-2xl border border-borda bg-superficie p-5">
-          <div>
-            <label htmlFor="email" className="block font-medium text-titulo">E-mail</label>
-            <input id="email" type="email" autoComplete="email" required value={email} onChange={(e) => setEmail(e.target.value)} className={campo} />
-          </div>
-          {erro && <p role="alert" className="font-medium text-erro">{erro}</p>}
-          <button type="submit" disabled={fase === "enviando"} className={botao}>{fase === "enviando" ? "Enviando…" : "Receber link de acesso"}</button>
-        </form>
-      )}
+      <EditarPerfil skills={skills} />
+      <VagasSalvas vagasNoAr={vagasNoAr} />
+      <ContaAcoes />
     </>
   );
 }
 
-function EditarPerfil({ usuario, inicial, skills }: { usuario: User; inicial: LinhaPerfil | null; skills: Record<string, string> }) {
+function EditarPerfil({ skills }: { skills: Record<string, string> }) {
+  const conta = useConta();
+  const inicial = conta.perfil;
   const [nome, setNome] = useState(inicial?.nome ?? "");
   const [area, setArea] = useState(inicial?.area ?? "");
   const [senioridade, setSenioridade] = useState(inicial?.senioridade ?? "");
@@ -101,21 +63,16 @@ function EditarPerfil({ usuario, inicial, skills }: { usuario: User; inicial: Li
     setSalvando(true);
     setMensagem(null);
     const linha = paraLinha(form, skills);
-    const { error } = await supabaseNoNavegador().from("perfis").upsert({ id: usuario.id, ...linha, atualizado_em: new Date().toISOString() });
-    setSalvando(false);
-    if (error) { console.error(error); setMensagem({ tipo: "erro", texto: "Não foi possível salvar agora. Tente de novo." }); return; }
-    setHabilidades(linha.habilidades.join(", "));
-    setMensagem({ tipo: "ok", texto: "Perfil salvo." });
-  }
-
-  async function sair() { await supabaseNoNavegador().auth.signOut(); }
-
-  async function excluir() {
-    if (!confirm("Excluir sua conta e todos os seus dados? Essa ação não pode ser desfeita.")) return;
-    const sb = supabaseNoNavegador();
-    const { error } = await sb.rpc("excluir_minha_conta");
-    if (error) { console.error(error); setMensagem({ tipo: "erro", texto: "Não foi possível excluir a conta agora. Tente de novo." }); return; }
-    await sb.auth.signOut();
+    try {
+      await conta.gravarPerfil(linha);
+      setHabilidades(linha.habilidades.join(", "));
+      setMensagem({ tipo: "ok", texto: "Perfil salvo." });
+    } catch (erro) {
+      console.error(erro);
+      setMensagem({ tipo: "erro", texto: "Não foi possível salvar agora. Tente de novo." });
+    } finally {
+      setSalvando(false);
+    }
   }
 
   const sugestoes = Object.values(skills);
@@ -123,8 +80,12 @@ function EditarPerfil({ usuario, inicial, skills }: { usuario: User; inicial: Li
 
   return (
     <>
-      <h1 className="font-display text-3xl font-bold text-titulo">{inicial ? "Meu perfil" : "Criar meu perfil"}</h1>
-      <p className="mt-2 max-w-2xl text-suave">Você entrou como <strong>{usuario.email}</strong>. {inicial ? "" : "Preencha o que quiser; tudo é opcional e pode mudar depois."}</p>
+      <h1 className="font-display text-3xl font-bold text-titulo">Meu perfil</h1>
+      <p className="mt-2 max-w-2xl text-suave">
+        Você entrou como <strong>{conta.usuario?.email}</strong>. Suas habilidades, área e nível são usados para calcular a sua aderência às vagas e
+        para mostrar o que estudar nas <Link href="/trilhas" className="text-link underline">trilhas</Link>.{" "}
+        <Link href="/boas-vindas" className="text-link underline">Refazer a configuração guiada</Link>.
+      </p>
 
       <form onSubmit={salvar} noValidate className="mt-6 space-y-5 rounded-2xl border border-borda bg-superficie p-5 sm:p-6">
         <div>
@@ -162,13 +123,80 @@ function EditarPerfil({ usuario, inicial, skills }: { usuario: User; inicial: Li
         </div>
 
         {mensagem && <p role={mensagem.tipo === "erro" ? "alert" : "status"} className={mensagem.tipo === "erro" ? "font-medium text-erro" : "font-medium text-link"}>{mensagem.texto}</p>}
-        <button type="submit" disabled={salvando} className={botao}>{salvando ? "Salvando…" : "Salvar perfil"}</button>
+        <button type="submit" disabled={salvando} className={estiloBotao("primario")}>{salvando ? "Salvando…" : "Salvar perfil"}</button>
       </form>
-
-      <div className="mt-6 flex flex-wrap items-center gap-4 text-sm">
-        <button type="button" onClick={sair} className="rounded-lg border border-borda px-4 py-2 text-suave hover:border-link">Sair</button>
-        <button type="button" onClick={excluir} className="text-erro underline">Excluir minha conta e meus dados</button>
-      </div>
     </>
+  );
+}
+
+function VagasSalvas({ vagasNoAr }: { vagasNoAr: string[] }) {
+  const conta = useConta();
+  const [erro, setErro] = useState<string | null>(null);
+  const noAr = new Set(vagasNoAr);
+
+  async function remover(vagaId: string, titulo: string | null) {
+    setErro(null);
+    try {
+      await conta.alternarSalva({ vaga_id: vagaId, titulo, empresa: null, url: null });
+    } catch (e) {
+      console.error(e);
+      setErro("Não foi possível remover agora. Tente de novo.");
+    }
+  }
+
+  return (
+    <section aria-labelledby="salvas" className="mt-10">
+      <h2 id="salvas" className="font-display text-2xl font-semibold text-titulo">Vagas salvas</h2>
+      {conta.salvasIndisponiveis ? (
+        <p className="mt-2 text-suave">Não foi possível carregar as suas vagas salvas agora. O resto do perfil continua funcionando.</p>
+      ) : conta.salvas.length === 0 ? (
+        <p className="mt-2 text-suave">Você ainda não salvou nenhuma vaga. Use &quot;Salvar vaga&quot; na página de uma vaga em <Link href="/vagas" className="text-link underline">Vagas</Link>.</p>
+      ) : (
+        <ul className="mt-4 space-y-3">
+          {conta.salvas.map((s) => {
+            const slug = slugDaVaga(s.vaga_id);
+            const aberta = noAr.has(s.vaga_id);
+            return (
+              <li key={s.vaga_id} className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-borda bg-superficie p-4">
+                <div>
+                  {aberta ? (
+                    <Link href={`/vagas/${slug}`} className="font-display text-lg font-semibold text-titulo hover:text-link">{s.titulo ?? "Vaga"}</Link>
+                  ) : s.url ? (
+                    <a href={s.url} target="_blank" rel="noopener noreferrer" className="font-display text-lg font-semibold text-titulo hover:text-link">{s.titulo ?? "Vaga"}</a>
+                  ) : (
+                    <span className="font-display text-lg font-semibold text-titulo">{s.titulo ?? "Vaga"}</span>
+                  )}
+                  <p className="text-sm text-suave">{[s.empresa, aberta ? null : "não está mais na lista atual"].filter(Boolean).join(" · ")}</p>
+                </div>
+                <button type="button" onClick={() => remover(s.vaga_id, s.titulo)} className={estiloBotao("secundario", "pequeno")}>
+                  Remover
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      )}
+      {erro && <p role="alert" className="mt-2 font-medium text-erro">{erro}</p>}
+    </section>
+  );
+}
+
+function ContaAcoes() {
+  const conta = useConta();
+  const [erro, setErro] = useState<string | null>(null);
+
+  async function excluir() {
+    if (!confirm("Excluir sua conta e todos os seus dados? Essa ação não pode ser desfeita.")) return;
+    try { await conta.excluirConta(); } catch (e) { console.error(e); setErro("Não foi possível excluir a conta agora. Tente de novo."); }
+  }
+
+  return (
+    <div className="mt-10 border-t border-borda pt-6">
+      <div className="flex flex-wrap items-center gap-4 text-sm">
+        <button type="button" onClick={() => void conta.sair()} className={estiloBotao("secundario")}>Sair</button>
+        <button type="button" onClick={excluir} className={estiloBotao("perigo")}>Excluir minha conta e meus dados</button>
+      </div>
+      {erro && <p role="alert" className="mt-2 font-medium text-erro">{erro}</p>}
+    </div>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
+import { BOTAO_ICONE } from "@/lib/botoes";
 
 type Tema = "light" | "dark";
 
@@ -31,7 +32,7 @@ export function AlternarTema() {
       aria-pressed={escuro}
       aria-label="Modo escuro"
       title={escuro ? "Voltar ao modo claro" : "Usar o modo escuro"}
-      className="grid h-9 w-9 place-items-center rounded-lg border border-white/25 text-white hover:border-azul-claro hover:text-azul-claro"
+      className={`${BOTAO_ICONE} border-white/25 text-white hover:border-azul-claro hover:text-azul-claro`}
     >
       {escuro ? (
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">

@@ -23,12 +23,28 @@ npm run typecheck && npm run lint && npm test && npm run build
 | Rota | O que é |
 |---|---|
 | `/` | início |
-| `/vagas` | lista com busca e filtros (área, nível, modelo) |
-| `/vagas/[id]` | detalhe da vaga (uma página estática por vaga) |
+| `/vagas` | lista com busca e filtros; logada, mostra a **aderência** de cada vaga ao perfil, ordena pelas mais aderentes e permite salvar |
+| `/vagas/[id]` | detalhe da vaga (uma página estática por vaga): aderência ao perfil, **o que falta com link para a etapa certa da trilha**, salvar e "algo errado nesta vaga?" |
 | `/trilhas`, `/trilhas/[id]` | trilhas por área, do básico ao avançado, com 5 ideias de mini-projeto por etapa e conteúdo gratuito; logada, a pessoa se inscreve e marca o progresso |
-| `/perfil` | login por link no e-mail e criação/edição do perfil (área, nível, habilidades) |
+| `/perfil` | login por link no e-mail, edição do perfil (área, nível, habilidades) e vagas salvas |
+| `/boas-vindas` | onboarding de 3 passos (área, nível, habilidades); abre sozinho no primeiro acesso |
 | `/artigos/enviar` | formulário de artigos para o Medium |
 | `/contato` | Fale conosco: e-mail oficial, LinkedIn da DSE Community e Linktree (também no rodapé) |
 | `/palestrantes/cadastro` | formulário público de palestrantes (grava como "pendente") |
 
 A lógica de validação do formulário está em `src/lib/palestrantes.ts` e espelha os `check` do banco.
+
+## Aderência e ligação com as trilhas
+
+- **Aderência** = % das tecnologias principais da vaga que a pessoa já tem; skills-filhas contam para as mães (Glue vale AWS). A lógica
+  está em `src/lib/aderencia.ts` (funções puras, com testes) e reconhece sinônimos pela taxonomia empacotada em
+  `src/dados/taxonomia.json`, **gerada** por `python -m app.exportar_json` (um teste Python falha se ela ficar desatualizada em relação a
+  `enrichment/taxonomy.yaml`).
+- **Vaga -> trilha**: cada tecnologia que falta aponta para `/trilhas/<área>#skill-<id>`, na trilha da área da vaga (ou na primeira que a tenha);
+  a página da trilha destaca a tecnologia. Veja `src/lib/ligacao-trilhas.ts`.
+- A conta (login, perfil, vagas salvas) fica em um provedor compartilhado, `src/lib/conta/`, com o estado em um reducer testável.
+
+### Conta de teste (só desenvolvimento)
+Para testar telas que exigem login sem Supabase, defina `NEXT_PUBLIC_CONTA_FAKE=1` no `.env.local` e reinicie o `npm run dev`: o site abre
+como uma pessoa logada, com o estado no `sessionStorage`. **Nunca vale em produção** (`NODE_ENV=production` recusa) e não deve ir para
+nenhum ambiente publicado.

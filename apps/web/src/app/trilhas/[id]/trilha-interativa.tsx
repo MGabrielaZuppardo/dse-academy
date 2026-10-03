@@ -2,16 +2,15 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { configurado, supabaseNoNavegador } from "@/lib/supabase/client";
+import { useConta } from "@/lib/conta/contexto";
+import { ancoraDaSkill } from "@/lib/ligacao-trilhas";
+import { configurado, contaFake, supabaseNoNavegador } from "@/lib/supabase/client";
 import { NIVEIS_TRILHA, agruparPorNivel, jaSabe, progresso, rotuloDoRecurso, type EtapaTrilha, type Recurso, type Trilha } from "@/lib/trilha-tipos";
+import { estiloBotao } from "@/lib/botoes";
 
-type Conta =
-  | { fase: "carregando" }
-  | { fase: "visitante" }
-  // semProgresso: não foi possível ler a inscrição (ex.: tabela ainda não criada ou banco fora do ar). A trilha segue visível.
-  | { fase: "logada"; inscrita: boolean; concluidas: string[]; habilidades: string[]; semProgresso: boolean };
+// Inscrição nesta trilha. indisponivel: não foi possível lê-la (ex.: tabela ainda não criada); a trilha segue visível.
+type Inscricao = { inscrita: boolean; concluidas: string[]; indisponivel: boolean };
 
-const botao = "rounded-lg bg-azul px-5 py-2.5 font-semibold text-white hover:opacity-90 disabled:opacity-60";
 const NOME_DO_NIVEL = Object.fromEntries(NIVEIS_TRILHA.map((n) => [n.id, n.nome]));
 
 function ItemDeRecurso({ r, mostrarNivel = false }: { r: Recurso; mostrarNivel?: boolean }) {
@@ -45,37 +44,33 @@ function ListaDeRecursos({ recursos, visiveis, mostrarNivel = false }: { recurso
 }
 
 export function TrilhaInterativa({ trilha, modelo }: { trilha: Trilha; modelo: string }) {
-  const ativo = configurado();
-  const [conta, setConta] = useState<Conta>({ fase: ativo ? "carregando" : "visitante" });
+  const sessao = useConta();
+  const [insc, setInsc] = useState<Inscricao | null>(null);
   const [ocupada, setOcupada] = useState(false);
   const [aviso, setAviso] = useState<string | null>(null);
 
+  // A inscrição é lida quando há uma pessoa logada; login e habilidades vêm da conta compartilhada.
+  const usuario = sessao.usuario;
   useEffect(() => {
-    if (!ativo) return;
-    const sb = supabaseNoNavegador();
+    if (!usuario) return;
     let vivo = true;
-
-    async function carregar(userId: string | null) {
-      if (!userId) { if (vivo) setConta({ fase: "visitante" }); return; }
-      const [insc, perfil] = await Promise.all([
-        sb.from("inscricoes_trilha").select("concluidas").eq("trilha_id", trilha.id).maybeSingle(),
-        sb.from("perfis").select("habilidades").eq("id", userId).maybeSingle(),
-      ]);
+    if (!configurado() || contaFake()) {
+      // Sem Supabase (ex.: conta de teste em desenvolvimento) não há onde guardar o progresso: a trilha segue só para leitura.
+      void Promise.resolve().then(() => { if (vivo) setInsc({ inscrita: false, concluidas: [], indisponivel: true }); });
+      return () => { vivo = false; };
+    }
+    void supabaseNoNavegador().from("inscricoes_trilha").select("concluidas").eq("trilha_id", trilha.id).maybeSingle().then(({ data, error }) => {
       if (!vivo) return;
       // warn, e não error: é uma falha esperada enquanto a migration 006 não foi aplicada, e a tela trata o caso.
-      if (insc.error) console.warn("Progresso da trilha indisponível:", insc.error.message);
-      setConta({
-        fase: "logada", inscrita: Boolean(insc.data), concluidas: insc.data?.concluidas ?? [],
-        habilidades: perfil.data?.habilidades ?? [], semProgresso: Boolean(insc.error),
-      });
-    }
+      if (error) console.warn("Progresso da trilha indisponível:", error.message);
+      setInsc({ inscrita: Boolean(data), concluidas: data?.concluidas ?? [], indisponivel: Boolean(error) });
+    });
+    return () => { vivo = false; };
+  }, [usuario, trilha.id]);
 
-    const { data: ouvinte } = sb.auth.onAuthStateChange((_e, sessao) => { void carregar(sessao?.user.id ?? null); });
-    void sb.auth.getSession().then(({ data }) => carregar(data.session?.user.id ?? null));
-    return () => { vivo = false; ouvinte.subscription.unsubscribe(); };
-  }, [ativo, trilha.id]);
-
-  const logada = conta.fase === "logada" ? conta : null;
+  const visitante = sessao.fase === "visitante";
+  const carregando = sessao.fase === "carregando" || (sessao.fase === "logada" && (!sessao.dadosProntos || insc === null));
+  const logada = sessao.fase === "logada" && insc ? { ...insc, semProgresso: insc.indisponivel, habilidades: sessao.habilidades } : null;
   const sabe = logada ? jaSabe(trilha, logada.habilidades) : new Set<string>();
   const concluidas = logada?.concluidas ?? [];
   const prog = progresso(trilha, concluidas, sabe);
@@ -87,7 +82,7 @@ export function TrilhaInterativa({ trilha, modelo }: { trilha: Trilha; modelo: s
     const { error } = await supabaseNoNavegador().from("inscricoes_trilha").insert({ trilha_id: trilha.id });
     setOcupada(false);
     if (error) { console.error(error); setAviso("Não foi possível iniciar a trilha agora. Tente de novo."); return; }
-    setConta({ ...logada, inscrita: true, concluidas: [] });
+    setInsc({ inscrita: true, concluidas: [], indisponivel: false });
   }
 
   async function sair() {
@@ -96,17 +91,17 @@ export function TrilhaInterativa({ trilha, modelo }: { trilha: Trilha; modelo: s
     const { error } = await supabaseNoNavegador().from("inscricoes_trilha").delete().eq("trilha_id", trilha.id);
     setOcupada(false);
     if (error) { console.error(error); setAviso("Não foi possível sair da trilha agora. Tente de novo."); return; }
-    setConta({ ...logada, inscrita: false, concluidas: [] });
+    setInsc({ inscrita: false, concluidas: [], indisponivel: false });
   }
 
   async function alternar(skillId: string) {
     if (!logada?.inscrita) return;
     const anteriores = logada.concluidas;
     const novas = anteriores.includes(skillId) ? anteriores.filter((id) => id !== skillId) : [...anteriores, skillId];
-    setConta({ ...logada, concluidas: novas }); // otimista: volta atrás se o banco recusar
+    setInsc({ inscrita: true, concluidas: novas, indisponivel: false }); // otimista: volta atrás se o banco recusar
     setAviso(null);
     const { error } = await supabaseNoNavegador().from("inscricoes_trilha").update({ concluidas: novas }).eq("trilha_id", trilha.id);
-    if (error) { console.error(error); setConta({ ...logada, concluidas: anteriores }); setAviso("Não foi possível salvar essa marcação. Tente de novo."); }
+    if (error) { console.error(error); setInsc({ inscrita: true, concluidas: anteriores, indisponivel: false }); setAviso("Não foi possível salvar essa marcação. Tente de novo."); }
   }
 
   function renderEtapa({ etapa, numero }: { etapa: EtapaTrilha; numero: number }) {
@@ -135,7 +130,7 @@ export function TrilhaInterativa({ trilha, modelo }: { trilha: Trilha; modelo: s
             const noPerfil = sabe.has(s.id);
             const feita = noPerfil || concluidas.includes(s.id);
             return (
-              <li key={s.id}>
+              <li key={s.id} id={ancoraDaSkill(s.id)} className="scroll-mt-6 rounded-lg target:bg-fundo target:ring-2 target:ring-link target:ring-offset-4 target:ring-offset-superficie">
                 <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
                   <label className="flex items-center gap-2 font-medium text-titulo">
                     <input type="checkbox" checked={feita} disabled={noPerfil || !logada?.inscrita} onChange={() => void alternar(s.id)} />
@@ -170,13 +165,15 @@ export function TrilhaInterativa({ trilha, modelo }: { trilha: Trilha; modelo: s
 
       <section aria-labelledby="progresso" className="mt-5 rounded-2xl border border-borda bg-superficie p-4">
         <h2 id="progresso" className="font-display text-lg font-semibold text-titulo">Seu progresso</h2>
-        {conta.fase === "carregando" && <p role="status" className="mt-1 text-suave">Carregando…</p>}
+        {carregando && <p role="status" className="mt-1 text-suave">Carregando…</p>}
 
-        {conta.fase === "visitante" && (
-          <p className="mt-1 text-suave">
-            <Link href="/perfil" className="text-link underline">Entre ou crie seu perfil</Link> para iniciar esta trilha, marcar o que já estudou
-            e ver o que você já sabe pelas habilidades do seu perfil.
-          </p>
+        {visitante && (
+          <>
+            <p className="mt-1 text-suave">
+              O acompanhamento é exclusivo de quem tem perfil: inicie esta trilha, marque o que já estudou e veja o que você já sabe pelas suas habilidades.
+            </p>
+            <Link href="/perfil" className={`mt-4 ${estiloBotao("primario")}`}>Entrar e acompanhar meu progresso</Link>
+          </>
         )}
 
         {logada && (
@@ -198,11 +195,11 @@ export function TrilhaInterativa({ trilha, modelo }: { trilha: Trilha; modelo: s
             </p>
             <div className="mt-3 flex flex-wrap items-center gap-3" hidden={logada.semProgresso}>
               {logada.inscrita ? (
-                <button type="button" onClick={sair} disabled={ocupada} className="rounded-lg border border-borda px-4 py-2 text-sm text-suave hover:border-link disabled:opacity-60">
+                <button type="button" onClick={sair} disabled={ocupada} className={estiloBotao("secundario", "pequeno")}>
                   Sair desta trilha
                 </button>
               ) : (
-                <button type="button" onClick={inscrever} disabled={ocupada} className={botao}>Começar esta trilha</button>
+                <button type="button" onClick={inscrever} disabled={ocupada} className={estiloBotao("primario")}>Começar esta trilha</button>
               )}
               {!logada.inscrita && <span className="text-sm text-suave">Ao começar, você pode marcar cada tecnologia como concluída.</span>}
             </div>

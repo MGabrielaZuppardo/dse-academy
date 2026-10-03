@@ -3,6 +3,7 @@
 import { useState, type FormEvent, type ReactNode } from "react";
 import { configurado, supabaseNoNavegador } from "@/lib/supabase/client";
 import { FORMATOS, IDIOMAS, MAX_TEMAS, MODALIDADES, paraLinha, validar, type CadastroPalestrante } from "@/lib/palestrantes";
+import { estiloBotao } from "@/lib/botoes";
 
 const campo = "mt-1 w-full rounded-lg border border-borda bg-superficie px-3 py-2";
 
@@ -137,7 +138,7 @@ export function FormularioPalestrante() {
 
       {erro && <p role="alert" className="font-medium text-erro">{erro}</p>}
 
-      <button type="submit" disabled={enviando} className="rounded-lg bg-azul px-5 py-2.5 font-semibold text-white hover:opacity-90 disabled:opacity-60">
+      <button type="submit" disabled={enviando} className={estiloBotao("primario")}>
         {enviando ? "Enviando…" : "Enviar cadastro"}
       </button>
     </form>
