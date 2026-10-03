@@ -85,6 +85,32 @@ Deve responder `ok` e o e-mail chega no `DESTINO`.
 **Depois de colar uma versão nova do código** no editor, é preciso **Implantar > Gerenciar implantações > editar >
 Nova versão**; senão a URL continua servindo o código antigo.
 
+## Google Agenda: artigos fixos no dia e lembrete de segunda-feira
+
+Além do e-mail, cada **artigo** novo vira um evento de **dia inteiro** no Google Agenda da conta que implantou o script
+(academydserec@gmail.com):
+
+- **Quando:** na **data desejada** para publicar; se a pessoa não informou, no dia do envio.
+- **O que tem:** título (`Artigo: ...`), autor(a) com e-mail, link do rascunho, perfil no Medium e resumo.
+- **Sem duplicar:** a descrição leva a marca `DSE-ARTIGO:<id>`; se o webhook repetir, o evento não é criado de novo.
+- Cadastros de palestrante **não** vão para o Agenda.
+- Se o Agenda falhar, o e-mail já saiu e o cadastro continua valendo (a falha fica no log).
+
+**Lembrete semanal:** toda **segunda-feira, perto das 8h**, o script cria no Agenda da DSE o evento
+**"Revisar os posts da semana no Medium"**, às 9h, e **convida gabrielamzuppardo@gmail.com** (chega convite por e-mail e
+notificação no Agenda dela, com alerta 10 minutos antes). A descrição lista os artigos marcados para aquela semana.
+Para convidar outra pessoa, crie a propriedade `LEMBRETE_PARA` (e-mails separados por vírgula).
+
+### Ligar (uma vez)
+1. Cole o código novo de [`notificar-submissoes.gs`](notificar-submissoes.gs) no editor do Apps Script e salve.
+2. **Fuso horário:** *Configurações do projeto > Fuso horário* = `(GMT-03:00) Brasília`. Sem isso o "9h" e o dia do evento saem no fuso errado.
+3. No editor, escolha a função **`instalarGatilhos`** e clique em **Executar**. O Google pede autorização nova (agora inclui o **Agenda**):
+   *Revisar permissões > escolher a conta > Avançado > Acessar (não seguro) > Permitir*. Isso cria o gatilho de segunda-feira.
+4. Escolha **`testarLembrete`** e execute: cria o lembrete desta semana, e o convite deve chegar em gabrielamzuppardo@gmail.com.
+   Rodar de novo no mesmo dia não duplica.
+5. **Implante uma nova versão** (a seção abaixo): a autorização do Agenda também vale para o webhook.
+6. Envie um artigo de teste pelo site com uma data desejada e confira o evento no Agenda; depois apague o evento e a linha de teste.
+
 ## Mudou o código do script?
 Depois de editar, é preciso **Implantar > Gerenciar implantações > editar > Nova versão**, senão a URL continua
 servindo a versão antiga. A URL se mantém.
@@ -98,4 +124,4 @@ servindo a versão antiga. A URL se mantém.
 ```bash
 node --test integrations/apps-script/notificar-submissoes.test.mjs
 ```
-Rodam o script em Node com os serviços do Google simulados (token, tipos de evento, assunto, formatação).
+Rodam o script em Node com os serviços do Google simulados (token, tipos de evento, assunto, formatação, eventos do Agenda e lembrete semanal).
