@@ -7,6 +7,10 @@
 #     PRIVACIDADE_RESPONSAVEL, PRIVACIDADE_CONTATO, PRIVACIDADE_REGIAO_DADOS
 #     (exibidas na política de privacidade; vazias aparecem como "[a definir]")
 #
+# Além do site antigo (GitHub Pages), o job "dados-do-site-novo" regenera apps/web/data/ (vagas e trilhas do site novo)
+# e commita no main: a Vercel publica sozinha a cada commit. Opcional: o segredo GROQ_API_KEY (Settings > Secrets > Actions)
+# faz o modelo aberto organizar as trilhas; sem ele, as trilhas saem por regras.
+#
 # Se a coleta vier suspeita (poucas vagas) ou os testes falharem, nada é publicado:
 # o site anterior continua no ar e o GitHub avisa por e-mail.
 
@@ -20,7 +24,7 @@ on:
   workflow_dispatch: # botão "Run workflow" na aba Actions
 
 permissions:
-  contents: read
+  contents: write # o job dados-do-site-novo commita apps/web/data/
   pages: write
   id-token: write
 
@@ -79,3 +83,44 @@ jobs:
     steps:
       - id: deploy
         uses: actions/deploy-pages@v4
+
+  dados-do-site-novo:
+    needs: coletar-e-construir
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+
+      - name: Instalar dependências
+        run: pip install -r requirements.txt
+
+      - name: Baixar a coleta
+        uses: actions/download-artifact@v4
+        with:
+          name: coleta-gupy-${{ github.run_id }}
+          path: data/raw/
+
+      - name: Gerar vagas e trilhas do site novo
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        run: |
+          python -m app.exportar_json
+          python -m trilhas.gerar
+
+      - name: Commitar se houver mudança
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add apps/web/data apps/web/src/dados
+          if git diff --cached --quiet; then
+            echo "Sem mudanças nos dados do site novo."
+          else
+            git commit -m "chore(dados): atualiza vagas e trilhas do site novo"
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi

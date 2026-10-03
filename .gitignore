@@ -3,6 +3,8 @@
 __pycache__/
 .pytest_cache/
 data/
+# Dados do site novo (vagas e trilhas): o workflow os regenera e versiona para a Vercel publicar com eles.
+!apps/web/data/
 amostra_gupy.json
 .env
 site/
