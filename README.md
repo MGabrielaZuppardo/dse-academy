@@ -6,6 +6,12 @@ emprego a entender **o que o mercado pede e o que falta no próprio perfil**.
 
 Um projeto da comunidade DSE Academy, feito pela comunidade de dados para a comunidade de dados.
 
+> **Dois sites convivem neste repositório.** O **site novo** (Next.js + Supabase, em `apps/web`) está no ar na Vercel:
+> <https://dse-academy-chi.vercel.app>. Ele tem trilhas de estudo, aderência às vagas, formulários de artigo e de palestrante
+> e o painel de administração. O **site antigo** (HTML/JS estático, em `app/`) segue sendo gerado pelo workflow semanal até o novo
+> assumir tudo. Quase todo o texto abaixo descreve o site antigo e o pipeline de dados; o site novo está em
+> [Site novo (Next.js + Supabase)](#site-novo-nextjs--supabase).
+
 ---
 
 ## Sumário
@@ -22,6 +28,7 @@ Um projeto da comunidade DSE Academy, feito pela comunidade de dados para a comu
 - [Estrutura do repositório](#estrutura-do-repositório)
 - [Desenvolvimento](#desenvolvimento)
 - [Fonte dos dados e uso responsável](#fonte-dos-dados-e-uso-responsável)
+- [Site novo (Next.js + Supabase)](#site-novo-nextjs--supabase)
 - [Roadmap](#roadmap)
 
 ---
@@ -316,7 +323,12 @@ ingestion/
   gupy.py                        conector da Gupy
   greenhouse.py, lever.py        reservados para próximos conectores (vazios)
 storage/repository.py            reservado para persistência em banco (vazio)
-supabase/migrations/             tabelas, RLS e função de exclusão de conta
+supabase/migrations/             tabelas, RLS, exclusão de conta e funções do painel de administração
+supabase/manual/                 SQL que leva segredos ou só lê (webhook do e-mail, validação das tabelas)
+integrations/apps-script/        aviso por e-mail dos formulários (Google Apps Script)
+apps/web/                        site novo (Next.js)
+apps/api/                        API (FastAPI)
+trilhas/                         gerador das trilhas de estudo
 tests/                           testes do conector, da taxonomia e do extrator
 main.py                          atalho para a coleta da Gupy
 ```
@@ -337,7 +349,9 @@ Arquivos gerados e não versionados: `data/` (coletas e enriquecimentos), `site/
 
 ## Fonte dos dados e uso responsável
 
-As vagas vêm do endpoint público que alimenta o portal de vagas da Gupy, que **não é uma API documentada para terceiros**.
+As vagas vêm do endpoint público que alimenta o portal de vagas da Gupy (`portal.gupy.io/api/job-search/jobs`), que **não é uma API documentada para terceiros**
+e já mudou de endereço uma vez (o antigo, `employability-portal.gupy.io/api/v1/jobs`, passou a responder 404 em outubro de 2026).
+Se a coleta voltar a falhar com 404, o primeiro passo é conferir qual endereço o portal público usa hoje.
 A coleta é conservadora (1 requisição por segundo, User-Agent identificado, uma vez por semana) e não captura dados
 pessoais de recrutadores ou candidatos. Cada vaga leva para o anúncio original.
 
@@ -346,21 +360,84 @@ pessoais de recrutadores ou candidatos. Cada vaga leva para o anúncio original.
 
 ---
 
-## Monorepo em migração (Next.js + FastAPI)
+## Site novo (Next.js + Supabase)
 
-O portal está sendo reconstruído em um monorepo, **sem tirar o site atual do ar**: `app/` (HTML/JS) continua sendo
-publicado pelo workflow semanal até o front novo ter as mesmas funcionalidades.
+Endereço: <https://dse-academy-chi.vercel.app>. O código fica em `apps/web` (detalhes em [apps/web/README.md](apps/web/README.md)).
 
 ```
-apps/web/     Next.js (TypeScript, Tailwind): front novo, páginas indexáveis, formulários
-apps/api/     FastAPI: tarefas de servidor (LLM com Groq, validação). Valida o JWT do Supabase
-supabase/     migrations SQL (auth, perfis, RLS, admins, palestrantes)
-ingestion/ enrichment/ storage/ app/   pipeline de coleta e site atual (migram para pipeline/ depois)
+apps/web/     Next.js (TypeScript, Tailwind): o site que as pessoas usam
+apps/api/     FastAPI: tarefas de servidor (LLM com Groq, validação). Valida o JWT do Supabase. Ainda não é usada pelo site
+supabase/     migrations SQL (perfis, RLS, admins, palestrantes, artigos, trilhas, painel de administração)
+integrations/ aviso por e-mail dos formulários, via Google Apps Script
+ingestion/ enrichment/ trilhas/ app/   pipeline de coleta e geração de dados (e o site antigo)
 ```
 
-Decisões: Supabase continua sendo auth e banco (a RLS é a única fonte de autorização; a API repassa o token da
-pessoa em vez de usar chave de serviço). O perfil de admin é a tabela `admins`, preenchida só pelo SQL Editor.
-Detalhes em [apps/web/README.md](apps/web/README.md) e [apps/api/README.md](apps/api/README.md).
+O site fala **direto com o Supabase** usando a chave pública, e a RLS é a única fonte de autorização. Por isso o piloto roda só com
+o front na Vercel e o Supabase; a API FastAPI fica para quando houver tarefas de servidor.
+
+### O que o site novo faz
+
+| Área | O que tem |
+|---|---|
+| Visitante | vagas com busca e filtros, trilhas de estudo (leitura), formulários de artigo e de palestrante, contato |
+| Com login (link no e-mail) | perfil (área, nível, habilidades), **aderência** a cada vaga e ordenação por aderência, vagas salvas, relato de erro, **progresso nas trilhas**, quadro "Sua atividade" |
+| Administração (`/admin`) | dashboards e **histórico** (pessoas, vagas salvas, inscrições, artigos, palestrantes, relatos), lista de artigos e de palestrantes com troca de situação, relatos de erro das vagas |
+
+### Publicação (Vercel)
+
+- Projeto importado do GitHub, **Root Directory `apps/web`**, branch `main`. Cada merge no `main` publica de novo.
+- Variáveis de ambiente (Vercel → Settings → Environment Variables). As `NEXT_PUBLIC_*` são gravadas no build: depois de mudar uma, faça novo deploy.
+
+| Variável | Valor |
+|---|---|
+| `NEXT_PUBLIC_SUPABASE_URL` | URL do projeto Supabase |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | chave **publishable** (pública por design; nunca a *secret*/*service_role*) |
+| `NEXT_PUBLIC_CONTATO_EMAIL`, `NEXT_PUBLIC_LINKEDIN_URL`, `NEXT_PUBLIC_LINKTREE_URL` | contatos exibidos em "Fale conosco" e no rodapé |
+| `NEXT_PUBLIC_CONTA_FAKE` | **não criar**: só para desenvolvimento |
+
+- Supabase → Authentication → URL Configuration: **Site URL** com o endereço da Vercel e, em **Redirect URLs**, o mesmo endereço com `/**`
+  (e `http://localhost:3000/**` para testes). Sem isso o link de login volta para o endereço errado.
+
+### Dados das vagas e das trilhas
+
+O site novo lê `apps/web/data/vagas.json`, `descricoes.json` e `trilhas.json`, gerados pelo pipeline (`python -m app.exportar_json` e
+`python -m trilhas.gerar`). Esses arquivos **são versionados** (a regra `!apps/web/data/` no `.gitignore` os libera) para a Vercel
+publicar com eles.
+
+**Atualização automática:** o job `dados-do-site-novo` do workflow semanal (também no botão *Run workflow*) baixa a coleta, regenera os três arquivos e
+commita no `main` quando algo muda (`chore(dados): atualiza vagas e trilhas do site novo`). A Vercel publica sozinha a cada commit.
+Se o segredo `GROQ_API_KEY` existir (*Settings → Secrets and variables → Actions*), o modelo aberto organiza as trilhas; sem ele, as trilhas saem por regras.
+
+### Banco de dados (migrations)
+
+Rode no SQL Editor do Supabase, em ordem:
+
+| Arquivo | O que cria |
+|---|---|
+| `001_perfil_candidato.sql` | perfis, vagas salvas, exclusão de conta |
+| `002_reportes_vaga.sql` | relatos de erro das vagas |
+| `003_admins.sql` | tabela `admins` e a função `is_admin()` |
+| `004_palestrantes.sql` | cadastro de palestrantes (com aprovação) |
+| `005_submissoes_artigos.sql` | artigos enviados |
+| `006_inscricoes_trilha.sql` | inscrição e progresso nas trilhas |
+| `007_admin_resumo.sql` | `admin_resumo()`: totais do painel, sem dados pessoais |
+| `008_admin_historico.sql` | `admin_historico()`: evolução dia a dia, calculada pelas datas de criação |
+
+Em `supabase/manual/`: `webhook_apps_script.sql` (liga o Supabase ao e-mail de aviso) e `validar_tabelas.sql` (consultas só de leitura para
+conferir tabelas, políticas e permissões).
+
+### Administração
+
+- Para dar acesso, a pessoa entra no site uma vez e, no SQL Editor:
+  `insert into public.admins (user_id) select id from auth.users where email = 'pessoa@exemplo.com';`
+- A tela só decide o que mostrar; quem protege é o banco (as funções e as políticas checam `is_admin()`). A rota `/admin` não é indexada.
+- O histórico vem das datas de criação das linhas: quem apaga a conta deixa de aparecer no passado.
+
+### Aviso por e-mail dos formulários
+
+Artigo ou palestrante enviado → linha no Supabase → gatilho (`pg_net`) → Google Apps Script → e-mail para a conta oficial da DSE.
+O token fica na URL do webhook e na propriedade `TOKEN` do script, e precisa ser igual nos dois lados (se não for, o script responde
+`nao autorizado`). Passo a passo em [integrations/apps-script/README.md](integrations/apps-script/README.md).
 
 ### Trilhas de estudo
 
@@ -386,13 +463,16 @@ Para ampliar o conteúdo basta editar os três YAML (há testes que validam ids,
 
 ## Roadmap
 
+- [ ] Cadastrar o segredo `GROQ_API_KEY` no GitHub para as trilhas do site novo saírem organizadas pelo modelo (hoje saem por regras)
+- [ ] Ativar o GitHub Pages (o job de publicação do site antigo falha com 404 sem isso) ou aposentar o site antigo
 - [ ] Revisar os termos de uso da Gupy (ver acima)
-- [ ] Ativar o GitHub Pages e configurar o Supabase para a URL de produção
-- [ ] Preencher `PRIVACIDADE_RESPONSAVEL`, `PRIVACIDADE_CONTATO` e `PRIVACIDADE_REGIAO_DADOS` e revisar a política com apoio jurídico
+- [ ] Página de política de privacidade no site novo; preencher `PRIVACIDADE_*` e revisar com apoio jurídico
 - [ ] SMTP próprio para os e-mails de login
+- [ ] Trocar o token do Apps Script (o usado nos testes apareceu em conversa) e apagar os envios de teste
+- [ ] Revisar as trilhas geradas
+- [ ] Migrar as últimas telas do site antigo (perfil de competências) para o Next.js
 - [ ] Avaliação manual de uma amostra (acurácia de senioridade, precisão e revocação das skills)
 - [ ] Conectores Greenhouse e Lever
-- [ ] Monorepo: formulário de palestrantes (feito), formulário de artigos com e-mail, painel de admin, trilhas de estudo (gerador, páginas e acompanhamento feitos; falta rodar com a chave do Groq), migrar as telas de vagas para o Next.js
 - [ ] Agente conversacional sobre os dados das vagas (adiado)
 
 **Licença:** ainda não definida.
