@@ -4,7 +4,7 @@ Front novo do portal. Lê e grava direto no Supabase com a chave pública; quem 
 (`supabase/migrations`). Next.js 16: `middleware` virou `proxy`, e a documentação da versão instalada fica em
 `node_modules/next/dist/docs/`.
 
-Os dados das vagas vêm do pipeline em Python. Gere os JSON antes (ficam em `apps/web/data/`, que está no `.gitignore`: **não vão para a Vercel** até serem versionados ou gerados no deploy, e sem eles o site publicado abre sem vagas e sem trilhas):
+Os dados das vagas vêm do pipeline em Python. Gere os JSON antes (ficam em `apps/web/data/` e **são versionados**: o job `dados-do-site-novo` do workflow os regenera e commita no `main` a cada coleta, e a Vercel publica com eles):
 
 ```bash
 python -m ingestion.gupy            # coleta (se ainda não tiver data/raw/)

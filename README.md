@@ -401,8 +401,12 @@ o front na Vercel e o Supabase; a API FastAPI fica para quando houver tarefas de
 ### Dados das vagas e das trilhas
 
 O site novo lê `apps/web/data/vagas.json`, `descricoes.json` e `trilhas.json`, gerados pelo pipeline (`python -m app.exportar_json` e
-`python -m trilhas.gerar`). **Esses arquivos estão no `.gitignore` (`data/`), então não vão para a Vercel**: enquanto não forem
-versionados ou gerados no deploy, o site publicado abre sem vagas e sem trilhas. Ver o [Roadmap](#roadmap).
+`python -m trilhas.gerar`). Esses arquivos **são versionados** (a regra `!apps/web/data/` no `.gitignore` os libera) para a Vercel
+publicar com eles.
+
+**Atualização automática:** o job `dados-do-site-novo` do workflow semanal (também no botão *Run workflow*) baixa a coleta, regenera os três arquivos e
+commita no `main` quando algo muda (`chore(dados): atualiza vagas e trilhas do site novo`). A Vercel publica sozinha a cada commit.
+Se o segredo `GROQ_API_KEY` existir (*Settings → Secrets and variables → Actions*), o modelo aberto organiza as trilhas; sem ele, as trilhas saem por regras.
 
 ### Banco de dados (migrations)
 
@@ -459,13 +463,13 @@ Para ampliar o conteúdo basta editar os três YAML (há testes que validam ids,
 
 ## Roadmap
 
-- [ ] **Levar os dados das vagas e das trilhas para a Vercel** (hoje o site publicado abre sem eles): fazer o workflow gerar os JSON e versioná-los
+- [ ] Cadastrar o segredo `GROQ_API_KEY` no GitHub para as trilhas do site novo saírem organizadas pelo modelo (hoje saem por regras)
 - [ ] Ativar o GitHub Pages (o job de publicação do site antigo falha com 404 sem isso) ou aposentar o site antigo
 - [ ] Revisar os termos de uso da Gupy (ver acima)
 - [ ] Página de política de privacidade no site novo; preencher `PRIVACIDADE_*` e revisar com apoio jurídico
 - [ ] SMTP próprio para os e-mails de login
 - [ ] Trocar o token do Apps Script (o usado nos testes apareceu em conversa) e apagar os envios de teste
-- [ ] Rodar `python -m trilhas.gerar` com `GROQ_API_KEY` e revisar as trilhas
+- [ ] Revisar as trilhas geradas
 - [ ] Migrar as últimas telas do site antigo (perfil de competências) para o Next.js
 - [ ] Avaliação manual de uma amostra (acurácia de senioridade, precisão e revocação das skills)
 - [ ] Conectores Greenhouse e Lever
