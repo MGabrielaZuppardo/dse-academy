@@ -209,7 +209,7 @@ test("semanaDe começa na segunda-feira, inclusive quando o dia é domingo", () 
 test("lembrete semanal convida a Gabriela, às 9h de segunda, listando os artigos da semana", () => {
   const { ctx, eventos } = ambiente(PROPS);
   const hoje = new Date();
-  const seg = ctx.semanaDe(hoje).inicio;
+  const seg = ctx.semanaDoLembrete(hoje).inicio;
   const dia = (n) => `${seg.getFullYear()}-${String(seg.getMonth() + 1).padStart(2, "0")}-${String(seg.getDate() + n).padStart(2, "0")}`;
   const nova = (d) => ctx.registrarNoCalendario({ id: "x" + d, titulo: "Artigo " + d, nome: "Ana", data_desejada: dia(d) });
   nova(1); nova(3);
@@ -249,4 +249,12 @@ test("instalarGatilhos cria um gatilho de segunda-feira e não duplica ao rodar 
   assert.equal(gatilhos[0].funcao, "lembreteSemanal");
   assert.equal(gatilhos[0].dia, "MONDAY");
   assert.equal(gatilhos[0].hora, 8);
+});
+
+test("semanaDoLembrete: no fim de semana aponta para a próxima segunda-feira", () => {
+  const { ctx } = ambiente(PROPS);
+  assert.equal(ctx.semanaDoLembrete(new Date(2026, 9, 3)).inicio.getDate(), 5); // sábado 03/10 -> segunda 05/10
+  assert.equal(ctx.semanaDoLembrete(new Date(2026, 9, 4)).inicio.getDate(), 5); // domingo 04/10 -> segunda 05/10
+  assert.equal(ctx.semanaDoLembrete(new Date(2026, 9, 5)).inicio.getDate(), 5); // segunda
+  assert.equal(ctx.semanaDoLembrete(new Date(2026, 9, 9)).inicio.getDate(), 5); // sexta
 });

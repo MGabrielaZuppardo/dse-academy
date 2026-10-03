@@ -198,6 +198,16 @@ function semanaDe(d) {
   return { inicio: seg, fim: fim };
 }
 
+/**
+ * Semana a que o lembrete se refere. De segunda a sexta é a semana de hoje; no sábado e no domingo é a PRÓXIMA semana,
+ * senão um teste feito no fim de semana criaria o lembrete numa segunda-feira que já passou. Pura.
+ */
+function semanaDoLembrete(d) {
+  var dia = d.getDay(); // 0 = domingo, 6 = sábado
+  var base = (dia === 0 || dia === 6) ? new Date(d.getFullYear(), d.getMonth(), d.getDate() + (dia === 6 ? 2 : 1)) : d;
+  return semanaDe(base);
+}
+
 /** Pura: texto do lembrete com os artigos da semana. */
 function descricaoDoLembrete(artigos) {
   var cab = 'Hora de conferir no Medium os posts desta semana.';
@@ -214,7 +224,7 @@ function lembreteSemanal() {
   var props = PropertiesService.getScriptProperties();
   var convidada = props.getProperty('LEMBRETE_PARA') || LEMBRETE_PADRAO;
   var agenda = CalendarApp.getDefaultCalendar();
-  var semana = semanaDe(new Date());
+  var semana = semanaDoLembrete(new Date());
 
   var artigos = agenda.getEvents(semana.inicio, semana.fim)
     .filter(function (e) { return e.isAllDayEvent() && e.getDescription().indexOf(MARCA_ARTIGO) !== -1; })
