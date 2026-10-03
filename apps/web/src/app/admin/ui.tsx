@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { diaCurto, larguraDaBarra } from "@/lib/admin/resumo";
+import { larguraDaBarra } from "@/lib/admin/resumo";
 
 export function Kpi({ valor, rotulo, detalhe }: { valor: number | string; rotulo: string; detalhe?: string }) {
   return (
@@ -38,30 +38,6 @@ export function Barras({ itens, vazio = "Ainda sem dados." }: { itens: { nome: s
         </li>
       ))}
     </ul>
-  );
-}
-
-/** Série diária em colunas. O texto para leitores de tela repete o total. */
-export function SerieDiaria({ dias }: { dias: { dia: string; n: number }[] }) {
-  const maximo = Math.max(0, ...dias.map((d) => d.n));
-  const total = dias.reduce((a, d) => a + d.n, 0);
-  if (dias.length === 0 || total === 0) return <p className="text-suave">Nenhum cadastro nos últimos 30 dias.</p>;
-  return (
-    <>
-      <div className="flex h-28 items-end gap-0.5" aria-hidden="true">
-        {dias.map((d) => (
-          <div
-            key={d.dia} title={`${diaCurto(d.dia)}: ${d.n}`} className="flex-1 rounded-t bg-azul"
-            style={{ height: `${Math.max(d.n > 0 ? 4 : 1, larguraDaBarra(d.n, maximo))}%`, opacity: d.n > 0 ? 1 : 0.25 }}
-          />
-        ))}
-      </div>
-      <div className="mt-1 flex justify-between text-xs text-suave" aria-hidden="true">
-        <span>{diaCurto(dias[0].dia)}</span>
-        <span>{diaCurto(dias[dias.length - 1].dia)}</span>
-      </div>
-      <p className="sr-only">{total} cadastros nos últimos 30 dias.</p>
-    </>
   );
 }
 

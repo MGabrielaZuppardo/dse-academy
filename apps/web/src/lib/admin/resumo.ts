@@ -54,3 +54,33 @@ export function diaCurto(iso: string): string {
   const [, m, d] = iso.split("-");
   return m && d ? `${d}/${m}` : iso;
 }
+
+/** Histórico dia a dia (função `admin_historico`): novos por dia e o ponto de partida do acumulado. */
+export type Metrica = "usuarios" | "vagas_salvas" | "inscricoes" | "artigos" | "palestrantes" | "reportes";
+
+export const METRICAS: readonly (readonly [Metrica, string, string])[] = [
+  ["usuarios", "Pessoas", "pessoas cadastradas"],
+  ["vagas_salvas", "Vagas salvas", "vagas salvas"],
+  ["inscricoes", "Inscrições em trilhas", "inscrições em trilhas"],
+  ["artigos", "Artigos", "artigos enviados"],
+  ["palestrantes", "Palestrantes", "palestrantes cadastrados"],
+  ["reportes", "Relatos de erro", "relatos de erro"],
+];
+
+export type Historico = {
+  inicio: string;
+  base: Record<Metrica, number>;
+  dias: ({ dia: string } & Record<Metrica, number>)[];
+};
+
+export type PontoDaSerie = { dia: string; novos: number; total: number };
+
+/** Novos por dia e total acumulado de uma métrica, mostrando só os últimos `ultimos` dias (o acumulado considera tudo antes). */
+export function serieAcumulada(h: Historico, metrica: Metrica, ultimos: number): PontoDaSerie[] {
+  let total = h.base[metrica];
+  const todos = h.dias.map((d) => {
+    total += d[metrica];
+    return { dia: d.dia, novos: d[metrica], total };
+  });
+  return todos.slice(-Math.max(1, ultimos));
+}

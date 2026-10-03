@@ -5,7 +5,8 @@ import { percentual, somar, STATUS_ARTIGO, STATUS_PALESTRANTE, type ResumoAdmin 
 import { TIPOS_RELATO } from "@/lib/relato";
 import { AREAS, NOME_NIVEL } from "@/lib/rotulos";
 import { supabaseNoNavegador } from "@/lib/supabase/client";
-import { Barras, Carregando, Erro, Kpi, Quadro, SerieDiaria } from "./ui";
+import { HistoricoAdmin } from "./historico";
+import { Barras, Carregando, Erro, Kpi, Quadro } from "./ui";
 
 const NOME_TIPO: Record<string, string> = Object.fromEntries(TIPOS_RELATO);
 
@@ -56,8 +57,8 @@ export function Painel({ titulos }: { titulos: Record<string, string> }) {
         <Kpi valor={reportes.total} rotulo="relatos de erro em vagas" />
       </section>
 
-      <Quadro id="cadastros" titulo="Novos cadastros nos últimos 30 dias">
-        <SerieDiaria dias={resumo.cadastros_por_dia} />
+      <Quadro id="historico" titulo="Evolução ao longo do tempo">
+        <HistoricoAdmin />
       </Quadro>
 
       <div className="grid gap-6 lg:grid-cols-2">
