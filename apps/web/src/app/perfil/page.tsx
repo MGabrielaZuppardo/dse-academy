@@ -8,5 +8,6 @@ export const metadata: Metadata = {
 };
 
 export default function Pagina() {
-  return <PerfilCliente skills={carregarVagas().skills} />;
+  const { skills, vagas } = carregarVagas();
+  return <PerfilCliente skills={skills} vagasNoAr={vagas.map((v) => v.id)} />;
 }

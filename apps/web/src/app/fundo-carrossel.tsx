@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useReducer, useState } from "react";
 import type { FotoDaGaleria } from "@/lib/galeria";
+import { BOTAO_ICONE } from "@/lib/botoes";
 
 const INTERVALO_MS = 6000;
 
@@ -82,7 +83,7 @@ export function FundoCarrossel({ fotos }: { fotos: FotoDaGaleria[] }) {
           <button
             type="button" onClick={() => setRodando((r) => !r)} aria-pressed={!rodando}
             aria-label={rodando ? "Pausar a troca automática de fotos" : "Retomar a troca automática de fotos"}
-            className={`grid h-9 w-9 place-items-center rounded-full border border-white/50 bg-marinho/55 text-white backdrop-blur-sm hover:border-white hover:bg-marinho/80 ${foco}`}
+            className={`${BOTAO_ICONE} border-white/50 bg-marinho/55 text-white backdrop-blur-sm hover:border-white hover:bg-marinho/80 ${foco}`}
           >
             {rodando ? (
               <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="5" y="4" width="5" height="16" rx="1" /><rect x="14" y="4" width="5" height="16" rx="1" /></svg>

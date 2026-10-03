@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { stacksDaVaga } from "@/lib/aderencia";
 import { haQuanto, localDaVaga } from "@/lib/rotulos";
 import { carregarVagas } from "@/lib/vagas";
 import { ListaVagas, type ItemVaga } from "./lista";
@@ -17,11 +18,13 @@ export default function Pagina() {
       id: v.id,
       titulo: v.titulo,
       empresa: v.empresa,
+      url: v.url,
       local: localDaVaga(v),
       modelo: v.modelo,
       area: v.area,
       senioridade: v.senioridade,
       stacks: v.citadas.map((id) => skills[id] ?? id),
+      principais: stacksDaVaga(v).principais,
       publicada: haQuanto(v.publicada_em),
     }));
 
